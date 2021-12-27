@@ -100,7 +100,7 @@ class UsuarioController extends AbstractController
                 $estudiate->setNombUsuario($usuario->getNombUsuario());
                 $estudiate->setPassword($usuario->getPassword());
                 $estudiate->setSolapin($usuario->getSolapin());
-                $estudiate->setRoles(["ROLE_TEACHER"]);
+                $estudiate->setRoles(["ROLE_USER"]);
                 $estudiate->setAnnoCursa($form->get('anno_cursa')->getData());
 
                 $hashedPassword = $passwordHasher->hashPassword(
