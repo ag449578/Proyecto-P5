@@ -1,0 +1,16 @@
+easy_admin:
+
+  site_name: Conference Guestbook
+
+  entities:
+    Usuario:
+      class: App\Entity\Usuario
+
+    Administrador:
+      class: App\Entity\Administrador
+
+    Estudiante:
+      class: App\Entity\Estudiante
+
+    Profesor:
+      class: App\Entity\Profesor
