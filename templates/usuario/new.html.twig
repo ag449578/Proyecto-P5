@@ -1,0 +1,187 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    
+    <section class="container mt-5">
+
+        <div class=" my-5">
+            <h2 class="h2">Crear Usuario:</h2>
+        </div>
+
+        {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate':true} }) }}
+        {# <form action="" class="needs-validation" novalidate> #}
+
+            <div class="row g-3">
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="nombre" class="col-sm-4 col-form-label">Nombre de usuario:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.nomb_usuario, {'attr': { "placeholder": "Nombre"}}) }}
+                          {# <input type="text" class="form-control" id="nombre" placeholder="Nombre" required> #}
+                          <div class="invalid-feedback">
+                              Debe escribir un nombre de usuario.
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="correo" class="col-sm-4 col-form-label">Correo:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.correo, {'attr': { "placeholder": "correo@dominio.com"}}) }}
+                          {# <input type="email" class="form-control" id="correo" placeholder="correo@dominio.com" required> #}
+                          <div class="invalid-feedback">
+                              Debe escribir un correo valido.
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="contrasenna" class="col-sm-4 col-form-label">Contraseña:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.password, {'attr': { "placeholder": "Contraseña"}}) }}
+                          {# <input type="password" class="form-control" id="password" placeholder="Contraseña" required minlength="8"> #}
+                          <div class="invalid-feedback">
+                              La contraseña debe ser de almenos 8 caracteres.
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="rep_contrasenna" class="col-sm-4 col-form-label">Repetir contraseña:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.rep_password, {'attr': { "placeholder": "Repite la contraseña"}}) }}
+
+                          {# <input type="password" class="form-control" id="rep_password" placeholder="Repite la contraseña" required minlength="8"> #}
+                          <div class="invalid-feedback">
+                            La contraseña debe ser de almenos 8 caracteres.
+                          </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="solapin" class="col-sm-4 col-form-label">Solapin:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.solapin, {'attr': { "placeholder": "Numero de solapin", "pattern":  "[ET]\\d{6}"}}) }}
+
+                          {# <input type="text" class="form-control" id="solapin" pattern="[ET]\d{6}" required placeholder="Numero de solapin"> #}
+                          <div class="invalid-feedback">
+                              Solapin no valido, profesores empiezan con "T" y estudiantes con "E".
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 col-md-6">
+                        <label for="rol" class="col-sm-4 col-form-label">Rol:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.rol) }}
+
+                            {# <select id="rol" class="form-select" required>
+                                <option disabled selected value="">Seleccionar...</option>
+                                <option value="1">Estudiante</option>
+                                <option value="2">Profesor</option>
+                                <option value="3">Administrador</option>
+                            </select> #}
+                            <div class="invalid-feedback">
+                                Debe seleccionar un rol.
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- DINAMICO EN DEPENDENCIA DEL ROL -->
+                    <!-- Con el motor de plantillas se maneja mejor -->
+
+                    <!-- Estudiante -->
+                    <div class="row mb-3 col-md-6 estudiante">
+                        <label for="anno" class="col-sm-4 col-form-label">Año que cursa:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.anno_cursa) }}
+
+                            {# <select id="anno" class="form-select" required>
+                                <option disabled selected value="">Seleccionar...</option>
+                                <option value="1">1ro</option>
+                                <option value="2">2do</option>
+                                <option value="3">3ro</option>
+                                <option value="3">4to</option>
+                                <option value="3">5to</option>
+                            </select> #}
+                            <div class="invalid-feedback">
+                                Debe indicar el año del estudiante.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profesor -->
+                    {# <div class="row mb-3 col-md-6 profesor">
+                        <label for="asignatura" class="col-sm-4 col-form-label">Asignaura:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.anno_cursa, {'attr': {'id': 'anno_cursa'}}) }}
+
+                            <select id="asignatura" class="form-select" required>
+                                <option disabled selected value="">Seleccionar...</option>
+                                <option value="1">Asignatura 1</option>
+                                <option value="2">Asignatura 2</option>
+                                <option value="3">Asignatura 3</option>
+                                <option value="3">Asignatura 4</option>
+                                <option value="3">Asignatura 5</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione la asignatura que imparte el profesor.
+                            </div>
+                        </div>
+                    </div> #}
+                    
+                    <div class="row mb-3 col-md-6 profesor">
+                        <label for="categoria" class="col-sm-4 col-form-label">Categoria docente:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.categoria_docente, {'attr': {'id': 'categoria_docente', "placeholder": "Ingeniero, Master o Doctor"}}) }}
+                          {# <input type="text" class="form-control" id="categoria" placeholder="Ingeniero, Master o Doctor" required> #}
+                          <div class="invalid-feedback">
+                              Debe escribir la categoria docente del profesor.
+                          </div>
+                        </div>
+                    </div>
+
+                    <!-- Administrador -->
+
+                    <div class="row mb-3 col-md-6 administrador">
+                        <label for="telefono" class="col-sm-4 col-form-label">Telefono de emergencias:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.telefono_emergencia, {'attr': { "placeholder": "+53 xxxxxxxx"}}) }}
+                          {# <input type="number" class="form-control" id="telefono_emergencia" placeholder="+53 xxxxxxxx" required> #}
+                          <div class="invalid-feedback">
+                              Debe escribir un telefono de emergencias.
+                          </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3 col-md-6 administrador">
+                        <label for="centro" class="col-sm-4 col-form-label">Centro:</label>
+                        <div class="col-sm-8">
+                        {{ form_widget(form.centro, {'attr': { "placeholder": "Centro donde radica"}}) }}
+                          {# <input type="text" class="form-control" id="centro" placeholder="Centro donde radica" required> #}
+                          <div class="invalid-feedback">
+                              Debe escribir el centro donde radica el administrador.
+                          </div>
+                        </div>
+                    </div>
+                   
+                </div>
+
+                <div class="text-center mt-5">
+                    {{ form_widget(form.enviar) }}
+
+                    {# <button type="submit" class="btn btn-primary mx-3 my-2">Enviar</button> #}
+                    <button type="button" class="btn btn-danger  mx-3 my-2">Cancelar</button>
+                    <button type="button" class="btn btn-warning mx-3 my-2">Resetear</button>
+                </div>
+
+        {{ form_end(form) }}
+    </section>
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/form-validation.js"></script>
+{% endblock %}

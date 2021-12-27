@@ -16,11 +16,6 @@ class Profesor extends Usuario
      */
     private $categoria_docente;
 
-    public function getId(): ?int
-    {
-        return $this->getId();
-    }
-
     public function getCategoriaDocente(): ?string
     {
         return $this->categoria_docente;

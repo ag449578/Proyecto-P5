@@ -11,8 +11,6 @@ use App\Entity\Usuario;
  */
 class Estudiante extends Usuario
 {
-    /** @ORM\Id @ORM\Column(type="integer") */
-    private $id;
     /**
      * @ORM\Column(type="string", length=255)
      */

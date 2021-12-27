@@ -48,6 +48,12 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $solapin;
 
+
+    public function __toString()
+    {
+        return $this->nomb_usuario;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
