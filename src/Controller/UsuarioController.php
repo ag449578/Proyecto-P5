@@ -52,7 +52,6 @@ class UsuarioController extends AbstractController
                 $admin = new Administrador();
                 $admin->setCorreo($usuario->getCorreo());
                 $admin->setNombUsuario($usuario->getNombUsuario());
-                $admin->setPassword($usuario->getPassword());
                 $admin->setSolapin($usuario->getSolapin());
                 $admin->setRoles(["ROLE_ADMIN"]);
                 $admin->setTelefonoEmergencia($form->get('telefono_emergencia')->getData());
@@ -76,7 +75,6 @@ class UsuarioController extends AbstractController
                 $profesor = new Profesor();
                 $profesor->setCorreo($usuario->getCorreo());
                 $profesor->setNombUsuario($usuario->getNombUsuario());
-                $profesor->setPassword($usuario->getPassword());
                 $profesor->setSolapin($usuario->getSolapin());
                 $profesor->setRoles(["ROLE_TEACHER"]);
                 $profesor->setCategoriaDocente($form->get('categoria_docente')->getData());
@@ -98,7 +96,6 @@ class UsuarioController extends AbstractController
                 $estudiate = new Estudiante();
                 $estudiate->setCorreo($usuario->getCorreo());
                 $estudiate->setNombUsuario($usuario->getNombUsuario());
-                $estudiate->setPassword($usuario->getPassword());
                 $estudiate->setSolapin($usuario->getSolapin());
                 $estudiate->setRoles(["ROLE_USER"]);
                 $estudiate->setAnnoCursa($form->get('anno_cursa')->getData());
