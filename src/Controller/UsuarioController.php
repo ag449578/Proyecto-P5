@@ -7,6 +7,7 @@ use App\Entity\Estudiante;
 use App\Entity\Profesor;
 use App\Entity\Usuario;
 use App\Form\UsuarioType;
+use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,12 +27,16 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="usuario")
+     * @Route("/list", name="usuarios")
      */
-    public function index(): Response
+    public function index(UsuarioRepository $usuarioRepository): Response
     {
 
-        return $this->render('usuario/index.html.twig');
+        $usuarios = $usuarioRepository->findAll();
+
+        return $this->render('administrador/usuarios/index.html.twig', [
+            'usuarios' => $usuarios
+        ]);
     }
 
     /**
@@ -114,7 +119,7 @@ class UsuarioController extends AbstractController
             }
         }
 
-        return $this->render('usuario/new.html.twig', [
+        return $this->render('administrador/usuarios/new.html.twig', [
             'form' => $form->createView()
         ]);
     }
