@@ -6,6 +6,12 @@ easy_admin:
     Anno:
       class: App\Entity\Anno
 
+    SeccionContenidos:
+      class: App\Entity\SeccionContenidos
+
+    Contenido:
+      class: App\Entity\Contenido
+
     Usuario:
       class: App\Entity\Usuario
 

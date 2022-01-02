@@ -28,6 +28,7 @@ class WelcomeController extends AbstractController
 
             $links = [
                 'Administración' => 'administrador',
+                'Asignaturas' => 'asignatura_index',
                 'Usuarios' => 'usuarios'
             ];
 

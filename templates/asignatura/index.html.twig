@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asignatura index{% endblock %}
+
+{% block body %}
+    <section class="container mt-5">
+
+        <div class="d-flex flex-row justify-content-between">
+            <h3>Asignaturas</h3>
+            <a href="{{ path('asignatura_new') }}" class="btn btn-primary mb-2">Agregar nueva</a>
+        </div>
+        
+        <div class="bg-light rounded shadow">
+            <table class="table">
+                <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Departamento</th>
+                    <th scope="col">Año</th>
+                    <th scope="col">Profesores</th>
+                    <th scope="col">E. Matriculados</th>
+                    <th scope="col">Contenidos</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, asignatura in asignaturas %}
+
+                    <tr>
+                        <td scope="row">{{ key + 1 }}</td>
+                        <td>{{ asignatura.nombre }}</td>
+                        <td>{{ asignatura.departamento }}</td>
+                        <td>{{ asignatura.AnnoImparte }}</td>
+                        <td>{{ asignatura.Profesores | length }}</td>
+                        <td>{{ asignatura.Estudiantes | length }}</td>
+                        <td>{{ asignatura.ContenidosTotales | length }}</td>
+                        <td>
+                            <a href="{{ path('asignatura_show', {'id': asignatura.id}) }}">ver</a>
+                            <a href="{{ path('asignatura_edit', {'id': asignatura.id}) }}">editar</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+{% endblock %}

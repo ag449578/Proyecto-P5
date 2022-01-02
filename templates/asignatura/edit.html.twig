@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Asignatura{% endblock %}
+
+{% block body %}
+    <section class="container mt-5">
+
+        <div class=" my-5">
+            <h2 class="h2">Editar Asignatura</h2>
+        </div>
+
+        {{ include('asignatura/_form.html.twig', {'button_label': 'Actualizar'}) }}
+
+    </section>
+{% endblock %}

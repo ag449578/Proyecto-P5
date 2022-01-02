@@ -80,11 +80,17 @@ class Asignatura
      */
     private $seccionesContenidos;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Estudiantes::class, mappedBy="asignaturas")
+     */
+    private $estudiantes;
+
     public function __construct()
     {
         $this->profesores = new ArrayCollection();
         $this->solicitudes = new ArrayCollection();
         $this->seccionesContenidos = new ArrayCollection();
+        $this->estudiantes = new ArrayCollection();
     }
 
     public function __toString()
@@ -294,6 +300,48 @@ class Asignatura
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Estudiantes[]
+     */
+    public function getEstudiantes(): Collection
+    {
+        return $this->estudiantes;
+    }
+
+    public function addEstudiante(Estudiantes $estudiante): self
+    {
+        if (!$this->estudiantes->contains($estudiante)) {
+            $this->estudiantes[] = $estudiante;
+            $estudiante->addAsignatura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEstudiante(Estudiantes $estudiante): self
+    {
+        if ($this->estudiantes->removeElement($estudiante)) {
+            $estudiante->removeAsignatura($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contenido[]
+     */
+    public function getContenidosTotales(): Collection
+    {
+        $secciones = $this->getSeccionesContenidos();
+        $cont = [];
+        
+        foreach($secciones as $seccion){
+            $cont = array_merge($cont, $seccion->getContenidos()->getValues());   
+        }
+        $contenidos = new ArrayCollection($cont);
+        return $contenidos;
     }
 
 }

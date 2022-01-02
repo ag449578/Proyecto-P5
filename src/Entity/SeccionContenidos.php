@@ -45,6 +45,11 @@ class SeccionContenidos
         $this->contenidos = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->nombre .' - '. $this->asignatura;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

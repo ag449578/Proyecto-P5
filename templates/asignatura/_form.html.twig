@@ -1,0 +1,102 @@
+{{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate':true} }) }}
+    <div class="row g-3">
+
+        <div class="row mb-3 col-md-6">
+            <label for="nombre" class="col-sm-4 col-form-label">Nombre:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.nombre, {'attr': { "placeholder": "Nombre"}}) }}
+                <div class="invalid-feedback">
+                    Debe escribir un nombre.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 col-md-6">
+            <label for="departamento" class="col-sm-4 col-form-label">Departamento:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.departamento, {'attr': { "placeholder": "Departamento"}}) }}
+                <div class="invalid-feedback">
+                    Debe seleccionar un departamento.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 col-md-6">
+            <label for="semestre" class="col-sm-4 col-form-label">Semestre:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.semestre, {'attr': { "placeholder": "Semestre"}}) }}
+                <div class="invalid-feedback">
+                    Debe seleccionar un semestre.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 col-md-6">
+            <label for="horas" class="col-sm-4 col-form-label">Horas clase:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.horas_clase, {'attr': { "placeholder": "Horas Clase"}}) }}
+                {# <input type="number" class="form-control" id="horas" value="0" min="10" required> #}
+                <div class="invalid-feedback">
+                    Debe ser un valor mayor o igual a 10.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 col-md-6">
+            <label for="temas" class="col-sm-4 col-form-label">Cantidad de temas:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.cantidad_temas, {'attr': { "placeholder": "Cantidad ed temas"}}) }}
+                {# <input type="number" class="form-control" id="temas" value="0" min="1"> #}
+                <div class="invalid-feedback">
+                    Debe ser un valor mayor o igual a 1.
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3 col-md-6">
+            <label for="temas" class="col-sm-4 col-form-label">Año escolar:</label>
+            <div class="col-sm-8">
+                {{ form_widget(form.anno_imparte) }}
+                {# <input type="number" class="form-control" id="temas" value="0" min="1"> #}
+                <div class="invalid-feedback">
+                    Debe seleccionar uno.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-check">
+                {{ form_widget(form.es_curricular) }}
+                {# <input class="form-check-input" type="checkbox" id="curricular"> #}
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <label for="descripcion" class="form-label">Descripción:</label>
+            {{ form_widget(form.descripcion, { attr: { rows: 6 } }) }}
+            {# <textarea class="form-control" id="descripcion" rows="6" required></textarea> #}
+            <div id="ayudaDesc" class="form-text">Descripcion sobre la asignatura y como abordarla.</div>
+            <div class="invalid-feedback">
+                Ingrese una descripcion.
+            </div>
+        </div>
+    
+        <div class="col-sm-12">
+            <label for="imagen" class="form-label">Imagen:</label>
+            {{ form_widget(form.imagen) }}
+            {# <input class="form-control form-control-sm" id="imagen" type="file" required> #}
+            
+            <div class="invalid-feedback">
+                Seleccione la imagen que represente a la asignatura.
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-center mt-5">
+            <button type="submit" class="btn btn-primary mx-3 my-2">Enviar</button>
+            <a href="{{ path('asignatura_index') }}" class="btn btn-danger  mx-3 my-2">Cancelar</a>
+            <button type="button" class="btn btn-warning mx-3 my-2">Resetear</button>
+        </div>
+
+    </div>
+
+{{ form_end(form) }}

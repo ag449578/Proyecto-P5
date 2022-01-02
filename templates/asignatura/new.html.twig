@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Asignatura{% endblock %}
+
+{% block body %}
+
+    <section class="container mt-5">
+
+        <div class=" my-5">
+            <h2 class="h2">Crear Asignatura:</h2>
+        </div>
+
+        {{ include('asignatura/_form.html.twig') }}
+
+    </section>
+
+{% endblock %}
