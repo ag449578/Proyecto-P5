@@ -72,7 +72,6 @@ class CreateAdminCommand extends Command
             ]);
 
             if(!$admin){
-                $creado = true;
                 $admin = new Administrador();
                 $admin->setCorreo($correo);
                 $admin->setNombUsuario($nomb_usuario);

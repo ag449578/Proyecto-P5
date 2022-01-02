@@ -70,9 +70,21 @@ class Asignatura
      */
     private $profesores;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Solicitud::class, mappedBy="asignatura")
+     */
+    private $solicitudes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SeccionContenidos::class, mappedBy="asignatura")
+     */
+    private $seccionesContenidos;
+
     public function __construct()
     {
         $this->profesores = new ArrayCollection();
+        $this->solicitudes = new ArrayCollection();
+        $this->seccionesContenidos = new ArrayCollection();
     }
 
     public function __toString()
@@ -218,6 +230,66 @@ class Asignatura
             // set the owning side to null (unless already changed)
             if ($profesore->getAsignatura() === $this) {
                 $profesore->setAsignatura(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): self
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes[] = $solicitude;
+            $solicitude->setAsignatura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): self
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getAsignatura() === $this) {
+                $solicitude->setAsignatura(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SeccionContenidos[]
+     */
+    public function getSeccionesContenidos(): Collection
+    {
+        return $this->seccionesContenidos;
+    }
+
+    public function addSeccionesContenido(SeccionContenidos $seccionesContenido): self
+    {
+        if (!$this->seccionesContenidos->contains($seccionesContenido)) {
+            $this->seccionesContenidos[] = $seccionesContenido;
+            $seccionesContenido->setAsignatura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeccionesContenido(SeccionContenidos $seccionesContenido): self
+    {
+        if ($this->seccionesContenidos->removeElement($seccionesContenido)) {
+            // set the owning side to null (unless already changed)
+            if ($seccionesContenido->getAsignatura() === $this) {
+                $seccionesContenido->setAsignatura(null);
             }
         }
 
