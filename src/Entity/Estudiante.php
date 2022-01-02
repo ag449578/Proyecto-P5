@@ -12,16 +12,17 @@ use App\Entity\Usuario;
 class Estudiante extends Usuario
 {
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Anno::class, inversedBy="estudiantes")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $anno_cursa;
 
-    public function getAnnoCursa(): ?string
+    public function getAnnoCursa(): ?Anno
     {
         return $this->anno_cursa;
     }
 
-    public function setAnnoCursa(string $anno_cursa): self
+    public function setAnnoCursa(?Anno $anno_cursa): self
     {
         $this->anno_cursa = $anno_cursa;
 

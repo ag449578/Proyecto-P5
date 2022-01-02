@@ -16,6 +16,12 @@ class Profesor extends Usuario
      */
     private $categoria_docente;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Asignatura::class, inversedBy="profesores")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $asignatura;
+
     public function getCategoriaDocente(): ?string
     {
         return $this->categoria_docente;
@@ -24,6 +30,18 @@ class Profesor extends Usuario
     public function setCategoriaDocente(string $categoria_docente): self
     {
         $this->categoria_docente = $categoria_docente;
+
+        return $this;
+    }
+
+    public function getAsignatura(): ?Asignatura
+    {
+        return $this->asignatura;
+    }
+
+    public function setAsignatura(?Asignatura $asignatura): self
+    {
+        $this->asignatura = $asignatura;
 
         return $this;
     }

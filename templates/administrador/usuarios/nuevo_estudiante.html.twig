@@ -1,0 +1,24 @@
+{% extends "administrador/usuarios/new.html.twig" %}
+
+{% block nuevo %}      
+
+    <h2 class="h2">Nuevo Estudiante:</h2>
+
+{% endblock %}
+
+{% block role %}
+    
+    <!-- Estudiante -->
+    <div class="row mb-3 col-md-6">
+        <label for="anno" class="col-sm-4 col-form-label">Año que cursa:</label>
+        <div class="col-sm-8">
+            {{ form_widget(form.anno_cursa) }}
+            <div class="invalid-feedback">
+                Debe indicar el año del estudiante.
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+               

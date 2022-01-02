@@ -3,8 +3,14 @@ easy_admin:
   site_name: Conference Guestbook
 
   entities:
+    Anno:
+      class: App\Entity\Anno
+
     Usuario:
       class: App\Entity\Usuario
+
+    Asignatura:
+      class: App\Entity\Asignatura
 
     Administrador:
       class: App\Entity\Administrador

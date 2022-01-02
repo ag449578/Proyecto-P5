@@ -1,0 +1,35 @@
+{% extends "administrador/usuarios/new.html.twig" %}
+
+{% block nuevo %}      
+
+    <h2 class="h2">Nuevo Administrador:</h2>
+
+{% endblock %}
+
+{% block role %}
+    
+    <!-- Administrador -->
+
+    <div class="row mb-3 col-md-6">
+        <label for="telefono" class="col-sm-4 col-form-label">Telefono de emergencias:</label>
+        <div class="col-sm-8">
+        {{ form_widget(form.telefono_emergencia, {'attr': { "placeholder": "+53 xxxxxxxx"}}) }}
+            {# <input type="number" class="form-control" id="telefono_emergencia" placeholder="+53 xxxxxxxx" required> #}
+            <div class="invalid-feedback">
+                Debe escribir un telefono de emergencias.
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 col-md-6">
+        <label for="centro" class="col-sm-4 col-form-label">Centro:</label>
+        <div class="col-sm-8">
+        {{ form_widget(form.centro, {'attr': { "placeholder": "Centro donde radica"}}) }}
+            {# <input type="text" class="form-control" id="centro" placeholder="Centro donde radica" required> #}
+            <div class="invalid-feedback">
+                Debe escribir el centro donde radica el administrador.
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

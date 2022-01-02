@@ -5,8 +5,9 @@ namespace App\Controller;
 use App\Entity\Administrador;
 use App\Entity\Estudiante;
 use App\Entity\Profesor;
-use App\Entity\Usuario;
-use App\Form\UsuarioType;
+use App\Form\AdministradorType;
+use App\Form\EstudianteType;
+use App\Form\ProfesorType;
 use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +28,7 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/list", name="usuarios")
+     * @Route("/", name="usuarios")
      */
     public function index(UsuarioRepository $usuarioRepository): Response
     {
@@ -40,87 +41,96 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new_user")
+     * @Route("/nuevo_estudiante", name="nuevo_estudiante")
      */
-    public function new(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    public function nuevo_estudiante(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
-        $usuario = new Usuario();
-        $form = $this->createForm(UsuarioType::class, $usuario);
+        $estudiate = new Estudiante();
+        $form = $this->createForm(EstudianteType::class, $estudiate);
 
         $form->handleRequest($request);
 
         if( $form->isSubmitted() && $form->isValid()) {
+            $estudiate->setRoles(["ROLE_USER"]);
 
-            // Administrador
-            if($form->get('rol')->getData() == "ROLE_ADMIN"){
-                
-                $admin = new Administrador();
-                $admin->setCorreo($usuario->getCorreo());
-                $admin->setNombUsuario($usuario->getNombUsuario());
-                $admin->setSolapin($usuario->getSolapin());
-                $admin->setRoles(["ROLE_ADMIN"]);
-                $admin->setTelefonoEmergencia($form->get('telefono_emergencia')->getData());
-                $admin->setCentro($form->get('centro')->getData());
+            $hashedPassword = $passwordHasher->hashPassword(
+                $estudiate,
+                $estudiate->getPassword()
+            );
+            $estudiate->setPassword($hashedPassword);
+            
+            $this->entityManager->persist($estudiate);
+            $this->entityManager->flush();
 
-                $hashedPassword = $passwordHasher->hashPassword(
-                    $usuario,
-                    $usuario->getPassword()
-                );
-                $admin->setPassword($hashedPassword);
-
-                $this->entityManager->persist($admin);
-                $this->entityManager->flush();
-
-                return $this->redirectToRoute('usuario');
-
-
-            // Profesor
-            }elseif($form->get('rol')->getData() == "ROLE_TEACHER") {
-
-                $profesor = new Profesor();
-                $profesor->setCorreo($usuario->getCorreo());
-                $profesor->setNombUsuario($usuario->getNombUsuario());
-                $profesor->setSolapin($usuario->getSolapin());
-                $profesor->setRoles(["ROLE_TEACHER"]);
-                $profesor->setCategoriaDocente($form->get('categoria_docente')->getData());
-
-                $hashedPassword = $passwordHasher->hashPassword(
-                    $usuario,
-                    $usuario->getPassword()
-                );
-                $profesor->setPassword($hashedPassword);
-
-                $this->entityManager->persist($profesor);
-                $this->entityManager->flush();
-
-                return $this->redirectToRoute('usuario');
-
-            // Estudiante
-            }elseif($form->get('rol')->getData() == "ROLE_USER") {
-                
-                $estudiate = new Estudiante();
-                $estudiate->setCorreo($usuario->getCorreo());
-                $estudiate->setNombUsuario($usuario->getNombUsuario());
-                $estudiate->setSolapin($usuario->getSolapin());
-                $estudiate->setRoles(["ROLE_USER"]);
-                $estudiate->setAnnoCursa($form->get('anno_cursa')->getData());
-
-                $hashedPassword = $passwordHasher->hashPassword(
-                    $usuario,
-                    $usuario->getPassword()
-                );
-                $estudiate->setPassword($hashedPassword);
-
-                $this->entityManager->persist($estudiate);
-                $this->entityManager->flush();
-
-                return $this->redirectToRoute('usuario');
-
-            }
+            return $this->redirectToRoute('usuarios');
         }
 
-        return $this->render('administrador/usuarios/new.html.twig', [
+        return $this->render('administrador/usuarios/nuevo_estudiante.html.twig', [
             'form' => $form->createView()
         ]);
+
     }
+
+    /**
+     * @Route("/nuevo_profesor", name="nuevo_profesor")
+     */
+    public function nuevo_profesor(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $profesor = new Profesor();
+        $form = $this->createForm(ProfesorType::class, $profesor);
+
+        $form->handleRequest($request);
+
+        if( $form->isSubmitted() && $form->isValid()) {
+            $profesor->setRoles(["ROLE_TEACHER"]);
+
+            $hashedPassword = $passwordHasher->hashPassword(
+                $profesor,
+                $profesor->getPassword()
+            );
+            $profesor->setPassword($hashedPassword);
+
+            $this->entityManager->persist($profesor);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('usuarios');
+        }
+
+        return $this->render('administrador/usuarios/nuevo_profesor.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/nuevo_administrador", name="nuevo_administrador")
+     */
+    public function nuevo_administrador(Request $request, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $admin = new Administrador();
+        $form = $this->createForm(AdministradorType::class, $admin);
+
+        $form->handleRequest($request);
+
+        if( $form->isSubmitted() && $form->isValid()) {
+            $admin->setRoles(["ROLE_ADMIN"]);
+
+            $hashedPassword = $passwordHasher->hashPassword(
+                $admin,
+                $admin->getPassword()
+            );
+            $admin->setPassword($hashedPassword);
+
+            $this->entityManager->persist($admin);
+            $this->entityManager->flush();
+
+            return $this->redirectToRoute('usuarios');
+        }
+
+        return $this->render('administrador/usuarios/nuevo_administrador.html.twig', [
+            'form' => $form->createView()
+        ]);
+
+    }
+
 }

@@ -4,7 +4,17 @@
 
 {% block body %}
 
+
     <div class="container mt-5">
+        <div class="d-flex flex-row justify-content-between">
+          <h3>Usuarios</h3>
+          <div>
+            <a href="{{path('nuevo_estudiante')}}" class="btn btn-info mb-2">Agregar Estudiante</a>
+            <a href="{{path('nuevo_profesor')}}" class="btn btn-primary mb-2">Agregar Profesor</a>
+            <a href="{{path('nuevo_administrador')}}" class="btn btn-warning mb-2">Agregar Administrador</a>
+          </div>
+        </div>
+
         <table class="table table-light table-hover">
           <thead>
         <tr>
@@ -16,6 +26,7 @@
         </tr>
           </thead>
           <tbody>
+          
             {% for key, usuario in usuarios %}
                 <tr>
                     <th scope="row">{{ key + 1 }}</th>

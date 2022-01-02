@@ -1,0 +1,34 @@
+{% extends "administrador/usuarios/new.html.twig" %}
+
+{% block nuevo %}      
+
+    <h2 class="h2">Nuevo Profesor:</h2>
+
+{% endblock %}
+
+{% block role %}
+    
+    <!-- Profesor -->
+    <div class="row mb-3 col-md-6">
+        <label for="asignatura" class="col-sm-4 col-form-label">Asignaura:</label>
+        <div class="col-sm-8">
+        {{ form_widget(form.asignatura) }}
+
+            <div class="invalid-feedback">
+                Seleccione la asignatura que imparte el profesor.
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-3 col-md-6">
+        <label for="categoria" class="col-sm-4 col-form-label">Categoria docente:</label>
+        <div class="col-sm-8">
+        {{ form_widget(form.categoria_docente, {'attr': {'id': 'categoria_docente', "placeholder": "Ingeniero, Master o Doctor"}}) }}
+            {# <input type="text" class="form-control" id="categoria" placeholder="Ingeniero, Master o Doctor" required> #}
+            <div class="invalid-feedback">
+                Debe escribir la categoria docente del profesor.
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
