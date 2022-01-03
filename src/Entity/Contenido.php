@@ -36,7 +36,7 @@ class Contenido
      * @ORM\ManyToOne(targetEntity=SeccionContenidos::class, inversedBy="contenidos")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $seccion;
+    private $seccionContenidos;
 
     public function __toString()
     {
@@ -84,14 +84,15 @@ class Contenido
         return $this;
     }
 
-    public function getSeccion(): ?SeccionContenidos
+
+    public function getSeccionContenidos(): ?SeccionContenidos
     {
-        return $this->seccion;
+        return $this->seccionContenidos;
     }
 
-    public function setSeccion(?SeccionContenidos $seccion): self
+    public function setSeccionContenidos(?SeccionContenidos $seccionContenidos): self
     {
-        $this->seccion = $seccion;
+        $this->seccionContenidos = $seccionContenidos;
 
         return $this;
     }

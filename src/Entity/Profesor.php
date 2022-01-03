@@ -18,9 +18,9 @@ class Profesor extends Usuario
 
     /**
      * @ORM\ManyToOne(targetEntity=Asignatura::class, inversedBy="profesores")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    */
     private $asignatura;
+
 
     public function getCategoriaDocente(): ?string
     {
@@ -45,4 +45,6 @@ class Profesor extends Usuario
 
         return $this;
     }
+
+
 }

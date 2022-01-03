@@ -24,15 +24,16 @@ class Anno
      */
     private $descripcion;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Asignatura::class, mappedBy="anno_imparte")
-     */
-    private $asignaturas;
 
     /**
      * @ORM\OneToMany(targetEntity=Estudiante::class, mappedBy="anno_cursa")
      */
     private $estudiantes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Asignatura::class, mappedBy="anno_imparte", orphanRemoval=true)
+     */
+    private $asignaturas;
 
     public function __construct()
     {
@@ -62,35 +63,7 @@ class Anno
         return $this;
     }
 
-    /**
-     * @return Collection|Asignatura[]
-     */
-    public function getAsignaturas(): Collection
-    {
-        return $this->asignaturas;
-    }
-
-    public function addAsignatura(Asignatura $asignatura): self
-    {
-        if (!$this->asignaturas->contains($asignatura)) {
-            $this->asignaturas[] = $asignatura;
-            $asignatura->setAnnoImparte($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAsignatura(Asignatura $asignatura): self
-    {
-        if ($this->asignaturas->removeElement($asignatura)) {
-            // set the owning side to null (unless already changed)
-            if ($asignatura->getAnnoImparte() === $this) {
-                $asignatura->setAnnoImparte(null);
-            }
-        }
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|Estudiante[]
@@ -116,6 +89,36 @@ class Anno
             // set the owning side to null (unless already changed)
             if ($estudiante->getAnnoCursa() === $this) {
                 $estudiante->setAnnoCursa(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Asignatura[]
+     */
+    public function getAsignaturas(): Collection
+    {
+        return $this->asignaturas;
+    }
+
+    public function addAsignatura(Asignatura $asignatura): self
+    {
+        if (!$this->asignaturas->contains($asignatura)) {
+            $this->asignaturas[] = $asignatura;
+            $asignatura->setAnnoImparte($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAsignatura(Asignatura $asignatura): self
+    {
+        if ($this->asignaturas->removeElement($asignatura)) {
+            // set the owning side to null (unless already changed)
+            if ($asignatura->getAnnoImparte() === $this) {
+                $asignatura->setAnnoImparte(null);
             }
         }
 

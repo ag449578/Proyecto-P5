@@ -44,6 +44,7 @@ class Solicitud
      */
     private $asignatura;
 
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,4 +109,5 @@ class Solicitud
 
         return $this;
     }
+
 }

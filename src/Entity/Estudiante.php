@@ -24,9 +24,15 @@ class Estudiante extends Usuario
      */
     private $solicitudes;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Asignatura::class, mappedBy="estudiantes")
+     */
+    private $asignaturas;
+
     public function __construct()
     {
         $this->solicitudes = new ArrayCollection();
+        $this->asignaturas = new ArrayCollection();
     }
 
     public function getAnnoCursa(): ?Anno
@@ -66,6 +72,33 @@ class Estudiante extends Usuario
             if ($solicitude->getEstudiante() === $this) {
                 $solicitude->setEstudiante(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Asignatura[]
+     */
+    public function getAsignaturas(): Collection
+    {
+        return $this->asignaturas;
+    }
+
+    public function addAsignatura(Asignatura $asignatura): self
+    {
+        if (!$this->asignaturas->contains($asignatura)) {
+            $this->asignaturas[] = $asignatura;
+            $asignatura->addEstudiante($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAsignatura(Asignatura $asignatura): self
+    {
+        if ($this->asignaturas->removeElement($asignatura)) {
+            $asignatura->removeEstudiante($this);
         }
 
         return $this;

@@ -60,10 +60,9 @@ class Asignatura
     private $departamento;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Anno::class, inversedBy="asignaturas")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=SeccionContenidos::class, mappedBy="asignatura", orphanRemoval=true)
      */
-    private $anno_imparte;
+    private $seccionesContenidos;
 
     /**
      * @ORM\OneToMany(targetEntity=Profesor::class, mappedBy="asignatura")
@@ -71,26 +70,28 @@ class Asignatura
     private $profesores;
 
     /**
-     * @ORM\OneToMany(targetEntity=Solicitud::class, mappedBy="asignatura")
+     * @ORM\ManyToOne(targetEntity=Anno::class, inversedBy="asignaturas")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $solicitudes;
+    private $anno_imparte;
 
     /**
-     * @ORM\OneToMany(targetEntity=SeccionContenidos::class, mappedBy="asignatura")
-     */
-    private $seccionesContenidos;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Estudiantes::class, mappedBy="asignaturas")
+     * @ORM\ManyToMany(targetEntity=Estudiante::class, inversedBy="asignaturas")
      */
     private $estudiantes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Solicitud::class, mappedBy="asignatura", orphanRemoval=true)
+     */
+    private $solicitudes;
+
+
     public function __construct()
     {
-        $this->profesores = new ArrayCollection();
-        $this->solicitudes = new ArrayCollection();
         $this->seccionesContenidos = new ArrayCollection();
+        $this->profesores = new ArrayCollection();
         $this->estudiantes = new ArrayCollection();
+        $this->solicitudes = new ArrayCollection();
     }
 
     public function __toString()
@@ -212,64 +213,20 @@ class Asignatura
         return $this;
     }
 
-    /**
-     * @return Collection|Profesor[]
-     */
-    public function getProfesores(): Collection
-    {
-        return $this->profesores;
-    }
-
-    public function addProfesore(Profesor $profesore): self
-    {
-        if (!$this->profesores->contains($profesore)) {
-            $this->profesores[] = $profesore;
-            $profesore->setAsignatura($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProfesore(Profesor $profesore): self
-    {
-        if ($this->profesores->removeElement($profesore)) {
-            // set the owning side to null (unless already changed)
-            if ($profesore->getAsignatura() === $this) {
-                $profesore->setAsignatura(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
-     * @return Collection|Solicitud[]
+     * @return Collection|Contenido[]
      */
-    public function getSolicitudes(): Collection
+    public function getContenidosTotales(): Collection
     {
-        return $this->solicitudes;
-    }
-
-    public function addSolicitude(Solicitud $solicitude): self
-    {
-        if (!$this->solicitudes->contains($solicitude)) {
-            $this->solicitudes[] = $solicitude;
-            $solicitude->setAsignatura($this);
+        $secciones = $this->getSeccionesContenidos();
+        $cont = [];
+        
+        foreach($secciones as $seccion){
+            $cont = array_merge($cont, $seccion->getContenidos()->getValues());   
         }
-
-        return $this;
-    }
-
-    public function removeSolicitude(Solicitud $solicitude): self
-    {
-        if ($this->solicitudes->removeElement($solicitude)) {
-            // set the owning side to null (unless already changed)
-            if ($solicitude->getAsignatura() === $this) {
-                $solicitude->setAsignatura(null);
-            }
-        }
-
-        return $this;
+        $contenidos = new ArrayCollection($cont);
+        return $contenidos;
     }
 
     /**
@@ -303,45 +260,87 @@ class Asignatura
     }
 
     /**
-     * @return Collection|Estudiantes[]
+     * @return Collection|Profesor[]
      */
-    public function getEstudiantes(): Collection
+    public function getProfesores(): Collection
     {
-        return $this->estudiantes;
+        return $this->profesores;
     }
 
-    public function addEstudiante(Estudiantes $estudiante): self
+    public function addProfesore(Profesor $profesore): self
     {
-        if (!$this->estudiantes->contains($estudiante)) {
-            $this->estudiantes[] = $estudiante;
-            $estudiante->addAsignatura($this);
+        if (!$this->profesores->contains($profesore)) {
+            $this->profesores[] = $profesore;
+            $profesore->setAsignatura($this);
         }
 
         return $this;
     }
 
-    public function removeEstudiante(Estudiantes $estudiante): self
+    public function removeProfesore(Profesor $profesore): self
     {
-        if ($this->estudiantes->removeElement($estudiante)) {
-            $estudiante->removeAsignatura($this);
+        if ($this->profesores->removeElement($profesore)) {
+            // set the owning side to null (unless already changed)
+            if ($profesore->getAsignatura() === $this) {
+                $profesore->setAsignatura(null);
+            }
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|Contenido[]
+     * @return Collection|Estudiante[]
      */
-    public function getContenidosTotales(): Collection
+    public function getEstudiantes(): Collection
     {
-        $secciones = $this->getSeccionesContenidos();
-        $cont = [];
-        
-        foreach($secciones as $seccion){
-            $cont = array_merge($cont, $seccion->getContenidos()->getValues());   
+        return $this->estudiantes;
+    }
+
+    public function addEstudiante(Estudiante $estudiante): self
+    {
+        if (!$this->estudiantes->contains($estudiante)) {
+            $this->estudiantes[] = $estudiante;
         }
-        $contenidos = new ArrayCollection($cont);
-        return $contenidos;
+
+        return $this;
+    }
+
+    public function removeEstudiante(Estudiante $estudiante): self
+    {
+        $this->estudiantes->removeElement($estudiante);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Solicitud[]
+     */
+    public function getSolicitudes(): Collection
+    {
+        return $this->solicitudes;
+    }
+
+    public function addSolicitude(Solicitud $solicitude): self
+    {
+        if (!$this->solicitudes->contains($solicitude)) {
+            $this->solicitudes[] = $solicitude;
+            $solicitude->setAsignatura($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSolicitude(Solicitud $solicitude): self
+    {
+        if ($this->solicitudes->removeElement($solicitude)) {
+            // set the owning side to null (unless already changed)
+            if ($solicitude->getAsignatura() === $this) {
+                $solicitude->setAsignatura(null);
+            }
+        }
+
+        return $this;
     }
 
 }

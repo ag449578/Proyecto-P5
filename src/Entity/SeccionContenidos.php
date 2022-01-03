@@ -36,9 +36,10 @@ class SeccionContenidos
     private $asignatura;
 
     /**
-     * @ORM\OneToMany(targetEntity=Contenido::class, mappedBy="seccion")
+     * @ORM\OneToMany(targetEntity=Contenido::class, mappedBy="seccionContenidos", orphanRemoval=true)
      */
     private $contenidos;
+
 
     public function __construct()
     {
@@ -103,7 +104,7 @@ class SeccionContenidos
     {
         if (!$this->contenidos->contains($contenido)) {
             $this->contenidos[] = $contenido;
-            $contenido->setSeccion($this);
+            $contenido->setSeccionContenidos($this);
         }
 
         return $this;
@@ -113,11 +114,13 @@ class SeccionContenidos
     {
         if ($this->contenidos->removeElement($contenido)) {
             // set the owning side to null (unless already changed)
-            if ($contenido->getSeccion() === $this) {
-                $contenido->setSeccion(null);
+            if ($contenido->getSeccionContenidos() === $this) {
+                $contenido->setSeccionContenidos(null);
             }
         }
 
         return $this;
     }
+
+   
 }

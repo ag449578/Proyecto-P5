@@ -21,7 +21,7 @@ class AsignaturaController extends AbstractController
      */
     public function index(AsignaturaRepository $asignaturaRepository): Response
     {
-        return $this->render('asignatura/index.html.twig', [
+        return $this->render('administrador/asignatura/index.html.twig', [
             'asignaturas' => $asignaturaRepository->findAll(),
         ]);
     }
@@ -42,7 +42,7 @@ class AsignaturaController extends AbstractController
             return $this->redirectToRoute('asignatura_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('asignatura/new.html.twig', [
+        return $this->renderForm('administrador/asignatura/new.html.twig', [
             'asignatura' => $asignatura,
             'form' => $form,
         ]);
@@ -53,7 +53,7 @@ class AsignaturaController extends AbstractController
      */
     public function show(Asignatura $asignatura): Response
     {
-        return $this->render('asignatura/show.html.twig', [
+        return $this->render('administrador/asignatura/show.html.twig', [
             'asignatura' => $asignatura,
         ]);
     }
@@ -72,7 +72,7 @@ class AsignaturaController extends AbstractController
             return $this->redirectToRoute('asignatura_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('asignatura/edit.html.twig', [
+        return $this->renderForm('administrador/asignatura/edit.html.twig', [
             'asignatura' => $asignatura,
             'form' => $form,
         ]);
@@ -84,6 +84,9 @@ class AsignaturaController extends AbstractController
     public function delete(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$asignatura->getId(), $request->request->get('_token'))) {
+            foreach( $asignatura->getProfesores() as $profesor ){
+                $profesor->setAsignatura(null);
+            }
             $entityManager->remove($asignatura);
             $entityManager->flush();
         }

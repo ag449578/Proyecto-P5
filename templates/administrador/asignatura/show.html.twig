@@ -12,7 +12,7 @@
         <div class="head">
             <h3>{{ asignatura.nombre }}<span>{{ asignatura.esCurricular ? ' (curricular)' : ' (no curricular)' }}
                     {% if is_granted('ROLE_ADMIN') %}
-                        {{ include('asignatura/_delete_form.html.twig') }}
+                        {{ include('administrador/asignatura/_delete_form.html.twig') }}
                     {% endif %}
                 </span>
             </h3>
