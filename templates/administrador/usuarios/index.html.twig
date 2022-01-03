@@ -5,40 +5,90 @@
 {% block body %}
 
 
-    <div class="container mt-5">
+    <section class="container mt-5">
         <div class="d-flex flex-row justify-content-between">
           <h3>Usuarios</h3>
           <div>
-            <a href="{{path('nuevo_estudiante')}}" class="btn btn-info mb-2">Agregar Estudiante</a>
-            <a href="{{path('nuevo_profesor')}}" class="btn btn-primary mb-2">Agregar Profesor</a>
-            <a href="{{path('nuevo_administrador')}}" class="btn btn-warning mb-2">Agregar Administrador</a>
+            <a href="{{path('nuevo_estudiante')}}" class="btn btn-primary mb-2">Agregar Estudiante</a>
+            <a href="{{path('nuevo_profesor')}}" class="btn btn-warning mb-2">Agregar Profesor</a>
+            <a href="{{path('nuevo_administrador')}}" class="btn btn-danger mb-2">Agregar Administrador</a>
           </div>
         </div>
 
-        <table class="table table-light table-hover">
-          <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Correo</th>
-          <th scope="col">Solapin</th>
-          <th scope="col">Rol</th>
-        </tr>
-          </thead>
-          <tbody>
+        <div class="bg-light rounded shadow">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Solapin</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
           
-            {% for key, usuario in usuarios %}
-                <tr>
-                    <th scope="row">{{ key + 1 }}</th>
-                    <td>{{ usuario.getNombUsuario }}</td>
-                    <td>{{ usuario.correo }}</td>
-                    <td>{{ usuario.solapin }}</td>
-                    <td>{{ usuario.getRoles[0] }}</td>
-                </tr>
-            {% endfor %}
-        
-          </tbody>
-        </table>
-    </div>
+              {% for key, usuario in usuarios %}
+                  <tr>
+                      <th scope="row">{{ key + 1 }}</th>
+                      <td>{{ usuario.getNombUsuario }}</td>
+                      <td>{{ usuario.correo }}</td>
+                      <td>{{ usuario.solapin }}</td>
+                      <td>{{ usuario.getRoles[0] }}</td>
+                      <td>
+                       <a href="{{path('usuario_edit', {id:usuario.id})}}" class="btn btn-link">Editar</a>
+                       {{ include('administrador/usuarios/_delete_form.html.twig') }}
+                      </td>
+                  </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+          
+        {# Pagination #}
+            <div class="d-flex justify-content-center">
+            <nav aria-label="navigation shadow">
+                <ul class="pagination">
+                {% if anterior >= 0 %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('usuarios', { offset: anterior } )}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+
+
+                {% for i in 0..numb_pag-1 %}     
+                        <li class="page-item {% if offset == i * per_page %}
+                            active
+                        {% endif %}"><a class="page-link" href="{{path('usuarios', { offset: i * per_page } )}}">{{ i + 1 }}</a></li>  
+                {% endfor %}
+
+                {% if siguiente < usuarios|length %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('usuarios', { offset: siguiente } )}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="{{path('usuarios', { offset: siguiente } )}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                </ul>
+              </nav>
+            </div>
+
+        </div>
+    </section>
 
 {% endblock %}

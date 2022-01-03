@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Asignatura;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +15,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AsignaturaRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 9;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Asignatura::class);
+    }
+
+    public function getAsignaturaPaginator(int $offset): Paginator
+    {
+
+        $query = $this->createQueryBuilder('a') 
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
     }
 
     // /**

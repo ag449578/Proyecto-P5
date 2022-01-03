@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Administrador;
 use App\Entity\Estudiante;
 use App\Entity\Profesor;
+use App\Entity\Usuario;
 use App\Form\AdministradorType;
 use App\Form\EstudianteType;
 use App\Form\ProfesorType;
@@ -30,13 +31,20 @@ class UsuarioController extends AbstractController
     /**
      * @Route("/", name="usuarios")
      */
-    public function index(UsuarioRepository $usuarioRepository): Response
+    public function index(Request $request,UsuarioRepository $usuarioRepository): Response
     {
 
-        $usuarios = $usuarioRepository->findAll();
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $usuarioRepository->getUsuariosPaginator($offset);
+        
 
         return $this->render('administrador/usuarios/index.html.twig', [
-            'usuarios' => $usuarios
+            'usuarios' => $paginator,
+            'anterior' => $offset - UsuarioRepository::PAGINATOR_PER_PAGE,
+            'siguiente' => min(count($paginator), $offset + UsuarioRepository::PAGINATOR_PER_PAGE),
+            'numb_pag' => ceil(count($paginator) / UsuarioRepository::PAGINATOR_PER_PAGE),
+            'offset' => $offset,
+            'per_page' => UsuarioRepository::PAGINATOR_PER_PAGE
         ]);
     }
 
@@ -65,7 +73,7 @@ class UsuarioController extends AbstractController
             return $this->redirectToRoute('usuarios');
         }
 
-        return $this->render('administrador/usuarios/nuevo_estudiante.html.twig', [
+        return $this->render('administrador/usuarios/edit_estudiante.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -96,7 +104,7 @@ class UsuarioController extends AbstractController
             return $this->redirectToRoute('usuarios');
         }
 
-        return $this->render('administrador/usuarios/nuevo_profesor.html.twig', [
+        return $this->render('administrador/usuarios/edit_profesor.html.twig', [
             'form' => $form->createView()
         ]);
 
@@ -127,10 +135,49 @@ class UsuarioController extends AbstractController
             return $this->redirectToRoute('usuarios');
         }
 
-        return $this->render('administrador/usuarios/nuevo_administrador.html.twig', [
+        return $this->render('administrador/usuarios/edit_administrador.html.twig', [
             'form' => $form->createView()
         ]);
 
     }
 
+
+    /**
+     * @Route("/{id}/edit", name="usuario_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
+    {
+        $types = [
+            'ROLE_USER' => [EstudianteType::class, 'administrador/usuarios/edit_estudiante.html.twig'],
+            'ROLE_TEACHER' => [ProfesorType::class, 'administrador/usuarios/edit_profesor.html.twig'],
+            'ROLE_ADMIN' => [AdministradorType::class, 'administrador/usuarios/edit_administrador.html.twig']
+        ];        
+
+        $form = $this->createForm($types[$usuario->getRoles()[0]][0], $usuario);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('usuario_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm($types[$usuario->getRoles()[0]][1], [
+            'usuario' => $usuario,
+            'form' => $form,
+        ]);
+    }
+    /**
+     * @Route("/usuarios/{id}", name="usuario_delete", methods={"POST"})
+     */
+
+    public function delete(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$usuario->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($usuario);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('usuarios', [], Response::HTTP_SEE_OTHER);
+    }
 }

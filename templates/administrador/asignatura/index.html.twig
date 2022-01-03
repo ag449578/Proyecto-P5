@@ -6,7 +6,7 @@
     <section class="container mt-5">
 
         <div class="d-flex flex-row justify-content-between">
-            <h3>Asignaturas</h3>
+            <h3>Asignaturas : {{ asignaturas | length}}</h3>
             <a href="{{ path('asignatura_new') }}" class="btn btn-primary mb-2">Agregar nueva</a>
         </div>
         
@@ -27,7 +27,7 @@
                 {% for key, asignatura in asignaturas %}
 
                     <tr>
-                        <td scope="row">{{ key + 1 }}</td>
+                        <td scope="row">{{ key + offset + 1 }}</td>
                         <td>{{ asignatura.nombre }}</td>
                         <td>{{ asignatura.departamento }}</td>
                         <td>{{ asignatura.AnnoImparte }}</td>
@@ -46,6 +46,47 @@
                 {% endfor %}
                 </tbody>
             </table>
+
+            {# Pagination #}
+            <div class="d-flex justify-content-center">
+            <nav aria-label="navigation shadow">
+                <ul class="pagination">
+                {% if anterior >= 0 %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('asignatura_index', { offset: anterior } )}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+
+                  {% for i in 0..numb_pag-1 %}     
+                          <li class="page-item {% if offset == i * per_page %}
+                              active
+                          {% endif %}"><a class="page-link" href="{{path('asignatura_index', { offset: i * per_page } )}}">{{ i + 1 }}</a></li>  
+                  {% endfor %}  
+
+                {% if siguiente < asignaturas|length %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('asignatura_index', { offset: siguiente } )}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="{{path('asignatura_index', { offset: siguiente } )}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                </ul>
+              </nav>
+            </div>
 
         </div>
     </section>

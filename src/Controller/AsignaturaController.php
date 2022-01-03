@@ -6,28 +6,39 @@ use App\Entity\Asignatura;
 use App\Form\AsignaturaType;
 use App\Repository\AsignaturaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr\Math;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/administrador/asignaturas")
- */
+
 class AsignaturaController extends AbstractController
 {
     /**
-     * @Route("/", name="asignatura_index", methods={"GET"})
+     * @Route("/administrador/asignaturas", name="asignatura_index", methods={"GET"})
      */
-    public function index(AsignaturaRepository $asignaturaRepository): Response
+    public function index(Request $request ,AsignaturaRepository $asignaturaRepository): Response
     {
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $asignaturaRepository->getAsignaturaPaginator($offset);
+        
+
         return $this->render('administrador/asignatura/index.html.twig', [
-            'asignaturas' => $asignaturaRepository->findAll(),
+            'asignaturas' => $paginator,
+            'anterior' => $offset - AsignaturaRepository::PAGINATOR_PER_PAGE,
+            'siguiente' => min(count($paginator), $offset + AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'numb_pag' => ceil(count($paginator) / AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'offset' => $offset,
+            'per_page' => AsignaturaRepository::PAGINATOR_PER_PAGE
         ]);
+
+        
+
     }
 
     /**
-     * @Route("/new", name="asignatura_new", methods={"GET", "POST"})
+     * @Route("/administrador/asignaturas/new", name="asignatura_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,7 +60,7 @@ class AsignaturaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="asignatura_show", methods={"GET"})
+     * @Route("/asignaturas/{id}", name="asignatura_show", methods={"GET"})
      */
     public function show(Asignatura $asignatura): Response
     {
@@ -59,7 +70,7 @@ class AsignaturaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="asignatura_edit", methods={"GET", "POST"})
+     * @Route("/administrador/asignaturas/{id}/edit", name="asignatura_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager): Response
     {
@@ -79,7 +90,7 @@ class AsignaturaController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="asignatura_delete", methods={"POST"})
+     * @Route("/administrador/asignaturas/{id}", name="asignatura_delete", methods={"POST"})
      */
     public function delete(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager): Response
     {

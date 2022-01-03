@@ -36,6 +36,9 @@ body{
     }
 }
 
+section {
+    min-height: 30rem;
+}
 
 .card{
     display: inline-block;
@@ -54,6 +57,7 @@ footer{
     color: white; 
     padding: 16px;   
     width: 100%;
+
 
     .copyrigth {
         display: inline;

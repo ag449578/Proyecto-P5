@@ -17,3 +17,14 @@
 6. `symfony console app:create-admin Admin admin@admin.com 123456` : Crea un usuario tipo administrador.
     * `symfony console app:create-admin --help` : Para ver las opciones.
 7. `symfony server:start` : Inicia el servidor.
+
+
+# TODO:
+<!-- 1. Paginaciones en listado de usuarios y asignaturas. OK -->
+2. Diseñar vista perfil de usuario.
+3. Diseñar vista materiales(publica)
+<!-- 4. CRUD completo de usuarios. OK -->
+5. Implementar subida de foto asignatura
+6. Implementar Validaciones de los cruds.
+7. Implementar filtro para rol listado usuarios.
+8. Relacion Asignaturas_EStudiantes no funciona bien.
