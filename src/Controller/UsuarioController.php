@@ -8,6 +8,7 @@ use App\Entity\Profesor;
 use App\Entity\Usuario;
 use App\Form\AdministradorType;
 use App\Form\EstudianteType;
+use App\Form\PasswordChangeType;
 use App\Form\ProfesorType;
 use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,10 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
- * @Route("/administrador/usuarios")
+ * @Route("/")
  */
 class UsuarioController extends AbstractController
 {
@@ -29,7 +31,7 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/", name="usuarios")
+     * @Route("administrador/usuarios/", name="usuarios")
      */
     public function index(Request $request,UsuarioRepository $usuarioRepository): Response
     {
@@ -49,7 +51,7 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/nuevo_estudiante", name="nuevo_estudiante")
+     * @Route("administrador/usuarios/nuevo_estudiante", name="nuevo_estudiante")
      */
     public function nuevo_estudiante(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -80,7 +82,7 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/nuevo_profesor", name="nuevo_profesor")
+     * @Route("administrador/usuarios/nuevo_profesor", name="nuevo_profesor")
      */
     public function nuevo_profesor(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -111,7 +113,7 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("/nuevo_administrador", name="nuevo_administrador")
+     * @Route("administrador/usuarios/nuevo_administrador", name="nuevo_administrador")
      */
     public function nuevo_administrador(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
@@ -143,7 +145,7 @@ class UsuarioController extends AbstractController
 
 
     /**
-     * @Route("/{id}/edit", name="usuario_edit", methods={"GET", "POST"})
+     * @Route("administrador/usuarios/{id}/edit", name="usuario_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
     {
@@ -167,10 +169,10 @@ class UsuarioController extends AbstractController
             'form' => $form,
         ]);
     }
+    
     /**
-     * @Route("/usuarios/{id}", name="usuario_delete", methods={"POST"})
-     */
-
+     * @Route("administrador/usuarios/usuarios/{id}", name="usuario_delete", methods={"POST"})
+    */
     public function delete(Request $request, Usuario $usuario, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$usuario->getId(), $request->request->get('_token'))) {
@@ -180,4 +182,69 @@ class UsuarioController extends AbstractController
 
         return $this->redirectToRoute('usuarios', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/usuarios/{id}/show", name="usuario_detail", methods={"GET", "POST"})
+    */
+    public function details(Request $request, string $id, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        if($this->getUser()->getId() == $id){
+            switch($this->getUser()->getRoles()[0]){
+                case 'ROLE_USER':
+                    $usuario = $entityManager->getRepository(Estudiante::class)->findOneBy([
+                        'id' => $id
+                    ]);
+                    break;
+                case 'ROLE_TEACHER':
+                    $usuario = $entityManager->getRepository(Profesor::class)->findOneBy([
+                        'id' => $id
+                    ]);
+                    break;
+                case 'ROLE_ADMIN':
+                    $usuario = $entityManager->getRepository(Administrador::class)->findOneBy([
+                        'id' => $id
+                    ]);
+                    break;
+            }
+
+            $form = $this->createForm(PasswordChangeType::class);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                // dump($hashedPassword);
+
+                // La contraseña es valida???
+                if($passwordHasher->isPasswordValid($usuario, $form->get('password')->getData())){
+                    if($form->get('new_password')->getData() == $form->get('rep_password')->getData()){
+
+                        $hashedPassword = $passwordHasher->hashPassword(
+                            $usuario,
+                            $form->get('new_password')->getData()
+                        );
+                        $usuario->setPassword($hashedPassword);
+                        $entityManager->flush($usuario);
+                        
+                        return $this->render('administrador/usuarios/show.html.twig', [ 
+                            'usuario' => $usuario,
+                            'form' => $form->createView(),
+                            'msg' => 'Contraseña cambiada'
+                        ]);
+                    } else {
+                        $form->get('new_password')->addError(new FormError('Las contraseñas no coinciden.'));
+                        $form->get('rep_password')->addError(new FormError('Las contraseñas no coinciden.'));
+                    }
+                } else {
+                    $form->get('password')->addError(new FormError('Contraseña incorrecta.'));
+                }              
+            }
+            return $this->render('administrador/usuarios/show.html.twig', [ 
+                'usuario' => $usuario,
+                'form' => $form->createView(),
+            ]);
+            
+        }
+        return $this->redirectToRoute('usuario_detail', [ 'id' => $this->getUser()->getId() ]);
+    }
+
 }

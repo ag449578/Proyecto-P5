@@ -41,7 +41,7 @@ class WelcomeController extends AbstractController
         }elseif($this->isGranted("ROLE_USER")){
 
             $links = [
-                'Principal' => 'estudiantes',
+                'Principal' => 'estudiante',
             ];
             
         }
