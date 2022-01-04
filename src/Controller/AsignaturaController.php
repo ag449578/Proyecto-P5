@@ -70,6 +70,26 @@ class AsignaturaController extends AbstractController
     }
 
     /**
+     * @Route("/asignaturas/", name="asignaturas_public", methods={"GET"})
+     */
+    public function publicList(Request $request ,AsignaturaRepository $asignaturaRepository): Response
+    {
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $asignaturaRepository->getAsignaturaPaginator($offset);
+        
+
+        return $this->render('administrador/asignatura/public_list.html.twig', [
+            'asignaturas' => $paginator,
+            'anterior' => $offset - AsignaturaRepository::PAGINATOR_PER_PAGE,
+            'siguiente' => min(count($paginator), $offset + AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'numb_pag' => ceil(count($paginator) / AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'offset' => $offset,
+            'per_page' => AsignaturaRepository::PAGINATOR_PER_PAGE
+        ]);
+
+    }
+
+    /**
      * @Route("/administrador/asignaturas/{id}/edit", name="asignatura_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager): Response

@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AsignaturaRepository extends ServiceEntityRepository
 {
-    public const PAGINATOR_PER_PAGE = 9;
+    public const PAGINATOR_PER_PAGE = 8;
 
     public function __construct(ManagerRegistry $registry)
     {
