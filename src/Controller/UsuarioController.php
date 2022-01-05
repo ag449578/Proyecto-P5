@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Administrador;
+use App\Entity\Asignatura;
 use App\Entity\Estudiante;
 use App\Entity\Profesor;
 use App\Entity\Usuario;
@@ -10,6 +11,7 @@ use App\Form\AdministradorType;
 use App\Form\EstudianteType;
 use App\Form\PasswordChangeType;
 use App\Form\ProfesorType;
+use App\Repository\AsignaturaRepository;
 use App\Repository\UsuarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,6 +70,13 @@ class UsuarioController extends AbstractController
                 $estudiate->getPassword()
             );
             $estudiate->setPassword($hashedPassword);
+
+            // TEST
+            $repos = $this->getDoctrine()->getManager()->getRepository(Asignatura::class);
+            $asig = $repos->findOneBy([
+                'nombre' => 'P Web'
+            ]);
+            $estudiate->addAsignatura($asig);
             
             $this->entityManager->persist($estudiate);
             $this->entityManager->flush();
@@ -212,15 +221,13 @@ class UsuarioController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
 
-                // dump($hashedPassword);
-
                 // La contraseña es valida???
-                if($passwordHasher->isPasswordValid($usuario, $form->get('password')->getData())){
-                    if($form->get('new_password')->getData() == $form->get('rep_password')->getData()){
+                if($passwordHasher->isPasswordValid($usuario, $form->get('old_password')->getData())){
+                    if($form->get('password')->getData() == $form->get('rep_password')->getData()){
 
                         $hashedPassword = $passwordHasher->hashPassword(
                             $usuario,
-                            $form->get('new_password')->getData()
+                            $form->get('password')->getData()
                         );
                         $usuario->setPassword($hashedPassword);
                         $entityManager->flush($usuario);
@@ -231,11 +238,11 @@ class UsuarioController extends AbstractController
                             'msg' => 'Contraseña cambiada'
                         ]);
                     } else {
-                        $form->get('new_password')->addError(new FormError('Las contraseñas no coinciden.'));
+                        $form->get('password')->addError(new FormError('Las contraseñas no coinciden.'));
                         $form->get('rep_password')->addError(new FormError('Las contraseñas no coinciden.'));
                     }
                 } else {
-                    $form->get('password')->addError(new FormError('Contraseña incorrecta.'));
+                    $form->get('old_password')->addError(new FormError('Contraseña incorrecta.'));
                 }              
             }
             return $this->render('administrador/usuarios/show.html.twig', [ 

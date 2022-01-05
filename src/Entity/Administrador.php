@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\AdministradorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Usuario;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=AdministradorRepository::class)
@@ -13,11 +15,13 @@ class Administrador extends Usuario
 {
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      */
     private $telefono_emergencia;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $centro;
 

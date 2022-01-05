@@ -6,6 +6,7 @@ use App\Repository\AsignaturaRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AsignaturaRepository::class)
@@ -21,11 +22,13 @@ class Asignatura
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $descripcion;
 
@@ -36,16 +39,19 @@ class Asignatura
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      */
     private $semestre;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      */
     private $horas_clase;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
      */
     private $cantidad_temas;
 
@@ -56,6 +62,7 @@ class Asignatura
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $departamento;
 

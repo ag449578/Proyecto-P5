@@ -107,12 +107,25 @@ class AsignaturaController extends AbstractController
     /**
      * @Route("/administrador/asignaturas/{id}/edit", name="asignatura_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Asignatura $asignatura, EntityManagerInterface $entityManager, string $photoDir): Response
     {
         $form = $this->createForm(AsignaturaType::class, $asignatura);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            if($imagen = $form->get('imagen')->getData()){
+
+                $filename = bin2hex(random_bytes(6).'.'.$imagen->guessExtension());
+
+                try{
+                    $imagen->move($photoDir, $filename);
+                }catch(FileException $e){
+
+                }
+
+                $asignatura->setUrlImagen($filename);
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('asignatura_index', [], Response::HTTP_SEE_OTHER);

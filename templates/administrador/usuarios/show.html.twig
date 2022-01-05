@@ -36,7 +36,7 @@
               <h5 class="text-center mb-4">Cambiar Contraseña</h5>
 
               {# <form action=""> #}
-              {{ form_start(form) }}
+              {{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate':true} }) }}
 
                 {% if msg | default('') %}     
                     <div class="alert alert-success">
@@ -48,29 +48,32 @@
                     <label for="nombre" class="col-sm-3 col-form-label">Actual:</label>
                     <div class="col-sm-8">
                       {# <input type="text" class="form-control" id="nombre" placeholder="*********" required minlength="8"> #}
-                      {{ form_widget(form.password, { 'attr': { 'placeholder': '********' }}) }}
+                      {{ form_widget(form.old_password, { 'attr': { 'placeholder': '********', 'minlegth': '8' }}) }}
+                      {{ form_errors(form.old_password) }}
                       <div class="invalid-feedback">
-                          {{ form_errors(form.password) }}
+                        La contraseña debe ser de almenos 8 caracteres.
                       </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="nombre" class="col-sm-3 col-form-label">Nueva:</label>
                     <div class="col-sm-8">
-                      {{ form_widget(form.new_password, { 'attr': { 'placeholder': '********' }}) }}
+                      {{ form_widget(form.password, { 'attr': { 'placeholder': '********', 'minlegth': '8' }}) }}
                       {# <input type="text" class="form-control" id="nombre" placeholder="*********" required minlength="8"> #}
+                      {{ form_errors(form.password) }}
                       <div class="invalid-feedback">
-                            {{ form_errors(form.new_password) }}
+                        La contraseña debe ser de almenos 8 caracteres.
                       </div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="nombre" class="col-sm-3 col-form-label">Repetir:</label>
                     <div class="col-sm-8">
-                      {{ form_widget(form.rep_password, { 'attr': { 'placeholder': '********' }}) }}
+                      {{ form_widget(form.rep_password, { 'attr': { 'placeholder': '********', 'minlegth': '8' }}) }}
                       {# <input type="text" class="form-control" id="nombre" placeholder="*********" required minlength="8"> #}
+                      {{ form_errors(form.rep_password) }}
                       <div class="invalid-feedback">
-                            {{ form_errors(form.rep_password) }}
+                        La contraseña debe ser de almenos 8 caracteres.
                       </div>
                     </div>
                 </div>
@@ -90,4 +93,8 @@
     </section>
 
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/form-validation.js"></script>
 {% endblock %}
