@@ -24,7 +24,7 @@
 2. Diseñar vista perfil de usuario. OK
 3. Diseñar vista materiales(publica) OK
 4. CRUD completo de usuarios. OK
-5. Implementar subida de foto asignatura
+5. Implementar subida de foto asignatura OK
 6. Implementar Validaciones de los cruds.
 7. Implementar filtro para rol listado usuarios.
 8. Relacion Asignaturas_EStudiantes no funciona bien(en Easyadmin).

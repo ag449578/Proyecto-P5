@@ -8,6 +8,7 @@ use App\Repository\AsignaturaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Math;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,13 +41,27 @@ class AsignaturaController extends AbstractController
     /**
      * @Route("/administrador/asignaturas/new", name="asignatura_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, string $photoDir): Response
     {
         $asignatura = new Asignatura();
         $form = $this->createForm(AsignaturaType::class, $asignatura);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if($imagen = $form->get('imagen')->getData()){
+
+                $filename = bin2hex(random_bytes(6).'.'.$imagen->guessExtension());
+
+                try{
+                    $imagen->move($photoDir, $filename);
+                }catch(FileException $e){
+
+                }
+
+                $asignatura->setUrlImagen($filename);
+            }
+
             $entityManager->persist($asignatura);
             $entityManager->flush();
 
