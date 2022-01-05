@@ -44,8 +44,7 @@ class Usuario implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
+    */
     private $nomb_usuario;
 
     /**

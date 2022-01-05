@@ -14,8 +14,8 @@
             <table class="table">
                 <thead>
                     <th scope="col">#</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Departamento</th>
+                    <th scope="col"><a href="{{path('asignatura_index', { offset: offset, order:'nombre' } )}}">Nombre</a></th>
+                    <th scope="col"><a href="{{path('asignatura_index', { offset: offset, order:'departamento' } )}}">Departamento</a></th>
                     <th scope="col">Año</th>
                     <th scope="col">Profesores</th>
                     <th scope="col">E. Matriculados</th>
@@ -53,7 +53,7 @@
                 <ul class="pagination">
                 {% if anterior >= 0 %}
                   <li class="page-item">
-                    <a class="page-link" href="{{path('asignatura_index', { offset: anterior } )}}" aria-label="Previous">
+                    <a class="page-link" href="{{path('asignatura_index', { offset: anterior, order: order } )}}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
@@ -68,18 +68,18 @@
                   {% for i in 0..numb_pag-1 %}     
                           <li class="page-item {% if offset == i * per_page %}
                               active
-                          {% endif %}"><a class="page-link" href="{{path('asignatura_index', { offset: i * per_page } )}}">{{ i + 1 }}</a></li>  
+                          {% endif %}"><a class="page-link" href="{{path('asignatura_index', { offset: i * per_page, order: order } )}}">{{ i + 1 }}</a></li>  
                   {% endfor %}  
 
                 {% if siguiente < asignaturas|length %}
                   <li class="page-item">
-                    <a class="page-link" href="{{path('asignatura_index', { offset: siguiente } )}}" aria-label="Next">
+                    <a class="page-link" href="{{path('asignatura_index', { offset: siguiente, order: order } )}}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 {% else %}
                   <li class="page-item disabled">
-                    <a class="page-link" href="{{path('asignatura_index', { offset: siguiente } )}}" aria-label="Next">
+                    <a class="page-link" href="" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>

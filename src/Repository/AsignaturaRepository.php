@@ -22,10 +22,11 @@ class AsignaturaRepository extends ServiceEntityRepository
         parent::__construct($registry, Asignatura::class);
     }
 
-    public function getAsignaturaPaginator(int $offset): Paginator
+    public function getAsignaturaPaginator(int $offset, string $order): Paginator
     {
 
         $query = $this->createQueryBuilder('a') 
+            ->orderBy('a.'.$order, 'ASC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery()

@@ -33,13 +33,13 @@ class UsuarioController extends AbstractController
     }
 
     /**
-     * @Route("administrador/usuarios/", name="usuarios")
+     * @Route("administrador/usuarios", name="usuarios")
      */
     public function index(Request $request,UsuarioRepository $usuarioRepository): Response
     {
-
+        $order = $request->query->get('order', 'id');
         $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $usuarioRepository->getUsuariosPaginator($offset);
+        $paginator = $usuarioRepository->getUsuariosPaginator($offset, $order);
         
 
         return $this->render('administrador/usuarios/index.html.twig', [
@@ -48,7 +48,8 @@ class UsuarioController extends AbstractController
             'siguiente' => min(count($paginator), $offset + UsuarioRepository::PAGINATOR_PER_PAGE),
             'numb_pag' => ceil(count($paginator) / UsuarioRepository::PAGINATOR_PER_PAGE),
             'offset' => $offset,
-            'per_page' => UsuarioRepository::PAGINATOR_PER_PAGE
+            'per_page' => UsuarioRepository::PAGINATOR_PER_PAGE,
+            'order' => $order
         ]);
     }
 
@@ -165,17 +166,21 @@ class UsuarioController extends AbstractController
         ];        
 
         $form = $this->createForm($types[$usuario->getRoles()[0]][0], $usuario);
+        $form->remove('password');
+        $form->remove('rep_password');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('usuario_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('usuarios', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm($types[$usuario->getRoles()[0]][1], [
             'usuario' => $usuario,
             'form' => $form,
+            'edit' => true
         ]);
     }
     
