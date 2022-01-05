@@ -71,12 +71,12 @@ class UsuarioController extends AbstractController
             );
             $estudiate->setPassword($hashedPassword);
 
-            // TEST
-            $repos = $this->getDoctrine()->getManager()->getRepository(Asignatura::class);
-            $asig = $repos->findOneBy([
-                'nombre' => 'P Web'
-            ]);
-            $estudiate->addAsignatura($asig);
+            // // TEST
+            // $repos = $this->getDoctrine()->getManager()->getRepository(Asignatura::class);
+            // $asig = $repos->findOneBy([
+            //     'nombre' => 'P Web'
+            // ]);
+            // $estudiate->addAsignatura($asig);
             
             $this->entityManager->persist($estudiate);
             $this->entityManager->flush();
