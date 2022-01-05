@@ -16,8 +16,11 @@ class UsuarioType extends AbstractType
     {
         $builder
             ->add('correo', EmailType::class)
-            ->add('password', PasswordType::class)
+            ->add('password', PasswordType::class, [
+                'required' => false
+            ])
             ->add('rep_password', PasswordType::class, [
+                'required' => false,
                 "mapped" => false
             ])
             ->add('nomb_usuario')

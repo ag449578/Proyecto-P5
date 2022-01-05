@@ -20,10 +20,10 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Solapin</th>
-                <th scope="col">Rol</th>
+                <th scope="col"><a href="{{path('usuarios', { offset: offset, order:'nomb_usuario' } )}}">Nombre</a></th>
+                <th scope="col"><a href="{{path('usuarios', { offset: offset, order:'correo' } )}}">Correo</a></th>
+                <th scope="col"><a href="{{path('usuarios', { offset: offset, order:'solapin' } )}}">Solapin</a></th>
+                <th scope="col"><a href="{{path('usuarios', { offset: offset, order:'roles' } )}}">Rol</a></th>
                 <th scope="col">Acciones</th>
               </tr>
             </thead>
@@ -52,7 +52,7 @@
                 <ul class="pagination">
                 {% if anterior >= 0 %}
                   <li class="page-item">
-                    <a class="page-link" href="{{path('usuarios', { offset: anterior } )}}" aria-label="Previous">
+                    <a class="page-link" href="{{path('usuarios', { offset: anterior, order: order  } )}}" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                     </a>
                   </li>
@@ -68,18 +68,18 @@
                 {% for i in 0..numb_pag-1 %}     
                         <li class="page-item {% if offset == i * per_page %}
                             active
-                        {% endif %}"><a class="page-link" href="{{path('usuarios', { offset: i * per_page } )}}">{{ i + 1 }}</a></li>  
+                        {% endif %}"><a class="page-link" href="{{path('usuarios', { offset: i * per_page, order: order  } )}}">{{ i + 1 }}</a></li>  
                 {% endfor %}
 
                 {% if siguiente < usuarios|length %}
                   <li class="page-item">
-                    <a class="page-link" href="{{path('usuarios', { offset: siguiente } )}}" aria-label="Next">
+                    <a class="page-link" href="{{path('usuarios', { offset: siguiente, order: order  } )}}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>
                 {% else %}
                   <li class="page-item disabled">
-                    <a class="page-link" href="{{path('usuarios', { offset: siguiente } )}}" aria-label="Next">
+                    <a class="page-link" href="{{path('usuarios', { offset: siguiente, order: order  } )}}" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                     </a>
                   </li>

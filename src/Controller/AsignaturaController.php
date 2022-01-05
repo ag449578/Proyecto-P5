@@ -22,7 +22,8 @@ class AsignaturaController extends AbstractController
     public function index(Request $request ,AsignaturaRepository $asignaturaRepository): Response
     {
         $offset = max(0, $request->query->getInt('offset', 0));
-        $paginator = $asignaturaRepository->getAsignaturaPaginator($offset);
+        $order = $request->query->get('order', 'id');
+        $paginator = $asignaturaRepository->getAsignaturaPaginator($offset, $order);
         
 
         return $this->render('administrador/asignatura/index.html.twig', [
@@ -31,7 +32,8 @@ class AsignaturaController extends AbstractController
             'siguiente' => min(count($paginator), $offset + AsignaturaRepository::PAGINATOR_PER_PAGE),
             'numb_pag' => ceil(count($paginator) / AsignaturaRepository::PAGINATOR_PER_PAGE),
             'offset' => $offset,
-            'per_page' => AsignaturaRepository::PAGINATOR_PER_PAGE
+            'per_page' => AsignaturaRepository::PAGINATOR_PER_PAGE,
+            'order' => $order
         ]);
 
         

@@ -18,16 +18,17 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UsuarioRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public const PAGINATOR_PER_PAGE = 9;
+    public const PAGINATOR_PER_PAGE = 8;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Usuario::class);
     }
 
-    public function getUsuariosPaginator(int $offset): Paginator
+    public function getUsuariosPaginator(int $offset, string $order): Paginator
     {
         $query = $this->createQueryBuilder('u') 
+            ->orderBy('u.'.$order, 'ASC')
             ->setMaxResults(self::PAGINATOR_PER_PAGE)
             ->setFirstResult($offset)
             ->getQuery()
