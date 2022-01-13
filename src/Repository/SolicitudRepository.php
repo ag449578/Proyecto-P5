@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Solicitud;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +15,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class SolicitudRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 8;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Solicitud::class);
+    }
+
+    public function getSolicitudPaginator(int $offset, string $order): Paginator
+    {
+
+        $query = $this->createQueryBuilder('s') 
+            ->orderBy('s.'.$order, 'ASC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
     }
 
     // /**

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contenido{% endblock %}
+
+{% block body %}
+
+    <section class="container mt-5">
+        
+        <div class="d-flex flex-row justify-content-between">
+            <div class="d-flex justify-content-center align-items-center">
+                <h3 class="">Asignatura:<strong>    {{ profesor.asignatura }}</strong></h3>
+                {# <form style="margin-left: 30px;" action="" class="">
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0 form-control form-select" id="inlineFormCustomSelect">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </form> #}
+            </div>
+            <div>
+                <a href="{{path('nuevo_estudiante')}}" class="btn btn-primary mb-2">Crear seccion</a>
+            </div>
+        </div>
+
+        <h5>Seccion: 1</h5>
+
+
+
+
+    </section>
+
+{% endblock %}

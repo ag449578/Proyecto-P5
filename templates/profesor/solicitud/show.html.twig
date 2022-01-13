@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asignatura{% endblock %}
+
+{% block body %}
+
+    <section class="container mt-5">
+        <div class="head">
+            <h3>{{ solicitud.titulo }}</h3>
+            <p class="mt-2 mb-20"><strong>Estudiante:</strong> {{ solicitud.estudiante }} </p>
+            <p class="mt-2 mb-20"><strong>Asignatura:</strong> {{ solicitud.asignatura }} </p>
+            <p class="">{{ solicitud.descripcion }}</p>
+            <p class="mt-2 mb-0"><strong>Estado {{ solicitud.estado }}</strong></p>
+        </div>
+    </section>
+
+{% endblock %}

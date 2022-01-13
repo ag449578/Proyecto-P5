@@ -35,7 +35,9 @@ class WelcomeController extends AbstractController
         }elseif($this->isGranted("ROLE_TEACHER")){
 
             $links = [
-                'Principal' => 'profesor',
+                'Profesor' => 'profesor',
+                'Contenidos' => 'contenido',
+                'Solicitudes' => 'solicitud',
             ];
 
         }elseif($this->isGranted("ROLE_USER")){
