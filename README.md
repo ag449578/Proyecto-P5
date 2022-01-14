@@ -28,3 +28,4 @@
 6. Implementar Validaciones de los cruds. ~OK
 7. Implementar filtro para rol listado usuarios. OK
 8. Relacion Asignaturas_EStudiantes no funciona bien(en Easyadmin). OK verificado, funciona en los controladores.
+9. CRUD completo de Contenidos OK (Las url no son funcionales aun)
