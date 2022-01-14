@@ -15,14 +15,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ContenidoRepository extends ServiceEntityRepository
 {
-    public const PAGINATOR_PER_PAGE = 8;
+    // public const PAGINATOR_PER_PAGE = 8;
 
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Contenido::class);
     }
 
-    public function getContenidoPaginator(int $offset, string $order): Paginator
+    // Funcion para el paginador
+    /* public function getContenidoPaginator(int $offset, string $order): Paginator
     {
 
         $query = $this->createQueryBuilder('s') 
@@ -33,7 +34,7 @@ class ContenidoRepository extends ServiceEntityRepository
         ;
 
         return new Paginator($query);
-    }
+    } */
 
     // /**
     //  * @return Contenido[] Returns an array of Contenido objects
