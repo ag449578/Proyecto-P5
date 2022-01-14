@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contenido{% endblock %}
+
+{% block body %}
+    
+
+    <section class="container mt-5">
+
+        <div class="row">
+            <h1 class="col-10">Contenido</h1>
+            {{ include('profesor/contenido/_delete_form.html.twig') }}
+        </div>
+        <hr>
+        <div class="contenido bg-light rounded p-3 my-1">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ contenido.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripcion</th>
+                        <td>{{ contenido.descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Url_archivo</th>
+                        <td>{{ contenido.urlArchivo }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="row justify-content-around mt-4">
+            <a class="col-2 btn btn-primary" href="{{ path('contenido_index') }}">Volver a la lista</a>
+            <a class="col-2 btn btn-primary float-end" href="{{ path('contenido_edit', {'id': contenido.id}) }}">Editar</a>
+        </div>
+    </section>
+
+    
+{% endblock %}

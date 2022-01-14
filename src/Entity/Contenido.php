@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContenidoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContenidoRepository::class)
@@ -19,11 +20,13 @@ class Contenido
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
      */
     private $descripcion;
 

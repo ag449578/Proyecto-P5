@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SeccionContenidos index{% endblock %}
+
+{% block body %}
+    <h1>SeccionContenidos index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for seccion_contenido in seccion_contenidos %}
+            <tr>
+                <td>{{ seccion_contenido.id }}</td>
+                <td>{{ seccion_contenido.nombre }}</td>
+                <td>{{ seccion_contenido.descripcion }}</td>
+                <td>
+                    <a href="{{ path('seccion_contenidos_show', {'id': seccion_contenido.id}) }}">show</a>
+                    <a href="{{ path('seccion_contenidos_edit', {'id': seccion_contenido.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('seccion_contenidos_new') }}">Create new</a>
+{% endblock %}

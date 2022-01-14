@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Contenido{% endblock %}
+
+{% block body %}
+    <section class="container mt-5">
+        <h1 class="mb-4">Crear nuevo contenido</h1>
+        {{ include('profesor/contenido/_form.html.twig') }}
+        
+    </section>
+{% endblock %}

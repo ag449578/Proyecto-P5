@@ -36,7 +36,7 @@ class WelcomeController extends AbstractController
 
             $links = [
                 'Profesor' => 'profesor',
-                'Contenidos' => 'contenido',
+                'Contenidos' => 'contenido_index',
                 'Solicitudes' => 'solicitud',
             ];
 
