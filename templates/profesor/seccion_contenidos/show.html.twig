@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SeccionContenidos{% endblock %}
+
+{% block body %}
+    <h1>SeccionContenidos</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ seccion_contenido.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ seccion_contenido.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Descripcion</th>
+                <td>{{ seccion_contenido.descripcion }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('seccion_contenidos_index') }}">back to list</a>
+
+    <a href="{{ path('seccion_contenidos_edit', {'id': seccion_contenido.id}) }}">edit</a>
+
+    {{ include('seccion_contenidos/_delete_form.html.twig') }}
+{% endblock %}
