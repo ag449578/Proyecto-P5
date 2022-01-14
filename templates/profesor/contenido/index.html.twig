@@ -6,6 +6,7 @@
 
     <section class="container mt-5">
         
+        {# Cabecera #}
         <div class="d-flex flex-row justify-content-between">
             <div class="d-flex justify-content-center align-items-center">
                 <h3 class="">Asignatura:<strong>    {{ profesor.asignatura }}</strong></h3>
@@ -23,7 +24,103 @@
             </div>
         </div>
 
-        <h5>Seccion: 1</h5>
+        {% for seccion in profesor.asignatura.seccionesContenidos %}
+
+            {{ seccion }}
+
+            <div>
+                <a href="{{path('nuevo_estudiante')}}" class="btn btn-primary mb-2">Crear seccion</a>
+            </div>
+
+           
+
+            <div class="bg-light rounded shadow">
+                <table class="table">
+                    <thead>
+                        <th scope="col">#</th>
+                        <th scope="col"><a href="{{path('solicitud', { offset: offset, order:'titulo' } )}}">Nombre</a></th>
+                        <th scope="col"><a href="{{path('solicitud', { offset: offset, order:'estudiante' } )}}">Descripcion</a></th>
+                        <th scope="col">Url</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contenido in seccion %}
+    
+                        <tr>
+                            <td scope="row">{{ key + offset + 1 }}</td>
+                            <td>{{ contenido.nombre }}</td>
+                            <td>{{ contenido.descripcion }}</td>
+                            <td>{{ contenido.url }}</td>
+                            
+                            <td>
+                                <a href="{{ path('solicitud_show', {'id': solicitud.id}) }}">Ver</a>
+                                <a href="{{ path('asignatura_edit', {'id': solicitud.id}) }}">Responder</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="10">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+    
+                {# Pagination #}
+                <div class="d-flex justify-content-center">
+                <nav aria-label="navigation shadow">
+                    <ul class="pagination">
+                    {% if anterior >= 0 %}
+                      <li class="page-item">
+                        <a class="page-link" href="{{path('asignatura_index', { offset: anterior, order: order } )}}" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a class="page-link" href="" aria-label="Previous">
+                          <span aria-hidden="true">&laquo;</span>
+                        </a>
+                      </li>
+                    {% endif %}
+    
+                      {% for i in 0..numb_pag-1 %}     
+                              <li class="page-item {% if offset == i * per_page %}
+                                  active
+                              {% endif %}"><a class="page-link" href="{{path('asignatura_index', { offset: i * per_page, order: order } )}}">{{ i + 1 }}</a></li>  
+                      {% endfor %}  
+    
+                    {% if siguiente < contenidos|length %}
+                      <li class="page-item">
+                        <a class="page-link" href="{{path('asignatura_index', { offset: siguiente, order: order } )}}" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <a class="page-link" href="" aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                    </ul>
+                  </nav>
+                </div>
+    
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        {% endfor %}
+
 
 
 
