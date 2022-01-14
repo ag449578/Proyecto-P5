@@ -38,7 +38,7 @@ security:
         - { path: ^/estudiante/*, roles: [ROLE_USER, ROLE_TEACHER, ROLE_ADMIN] }
         - { path: ^/profesor/*, roles: [ROLE_TEACHER, ROLE_ADMIN] }
         - { path: ^/administrador/*, roles: ROLE_ADMIN }
-        - { path: ^/admin/*, roles: ROLE_ADMIN }
+        - { path: ^/admin/*, roles: [ROLE_TEACHER, ROLE_ADMIN] }
         # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
