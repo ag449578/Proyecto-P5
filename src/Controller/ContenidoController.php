@@ -140,7 +140,7 @@ class ContenidoController extends AbstractController
         $name=$nombre;
 
         if ($mime->isGuesserSupported()) {
-            $response->headers->set('Content-Type',$mime->guessMimeType($contenidoDir.'112cf0811f35.pdf'));
+            $response->headers->set('Content-Type',$mime->guessMimeType($contenidoDir.$nombre));
         }else{
             $response->headers->set('Content-Type', 'text/plain');
         }
