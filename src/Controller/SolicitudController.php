@@ -9,10 +9,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/solicitud")
+ */
+
 class SolicitudController extends AbstractController
 {
     /**
-     * @Route("/profesor/solicitud", name="solicitud")
+     * @Route("/profesor", name="solicitud")
      */
     public function index(Request $request, SolicitudRepository $solicitudRepository): Response
     {
@@ -32,7 +36,7 @@ class SolicitudController extends AbstractController
     }
 
     /**
-     * @Route("/solicitud/{id}", name="solicitud_show", methods={"GET"})
+     * @Route("/{id}", name="solicitud_show", methods={"GET"})
      */
     public function show(Solicitud $solicitud): Response
     {

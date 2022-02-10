@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/contenido")
+ * @Route("/profesor")
  */
 class ContenidoController extends AbstractController
 {
     /**
-     * @Route("/", name="contenido_index", methods={"GET"})
+     * @Route("/contenido", name="contenido_index", methods={"GET"})
      */
     public function index(ContenidoRepository $contenidoRepository, ProfesorRepository $profesorRepository): Response
     {
