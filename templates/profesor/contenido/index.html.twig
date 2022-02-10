@@ -38,7 +38,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripcion</th>
-                        <th scope="col">Url</th>
+                        <th scope="col">Descarga</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,7 +50,9 @@
                             <td scope="row">{{ key+1 }}</td>
                             <td>{{ contenido.nombre }}</td>
                             <td>{{ contenido.descripcion }}</td>
-                            <td>{{ contenido.getUrlArchivo }}</td>
+                            <td>
+                                <a href="{{ path('descarga', {'nombre': contenido.getUrlArchivo}) }}">Descargar</a>
+                            </td>
                             
                             <td>
                                 <a href="{{ path('contenido_show', {'id': contenido.id}) }}">Ver</a>
