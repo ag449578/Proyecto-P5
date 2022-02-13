@@ -58,6 +58,13 @@ class ContenidoController extends AbstractController
 
                 }
                 $contenido->setUrlArchivo($filename);
+            }else{
+                $e="Debe subir un archivo";
+                return $this->renderForm('profesor/contenido/new.html.twig', [
+                    'contenido' => $contenido,
+                    'form' => $form,
+                    'e'=>$e,
+                ]);
             }
 
             $entityManager->persist($contenido);
@@ -69,6 +76,7 @@ class ContenidoController extends AbstractController
         return $this->renderForm('profesor/contenido/new.html.twig', [
             'contenido' => $contenido,
             'form' => $form,
+            'e'=>null,
         ]);
     }
 
@@ -103,6 +111,7 @@ class ContenidoController extends AbstractController
         return $this->renderForm('profesor/contenido/edit.html.twig', [
             'contenido' => $contenido,
             'form' => $form,
+            'e'=>null,
         ]);
     }
 

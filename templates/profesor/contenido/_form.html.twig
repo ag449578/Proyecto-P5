@@ -32,8 +32,13 @@
             <div class="col-sm-9">
                 {{ form_widget(form.archivo) }}
                 <div class="invalid-feedback">
-                    URL.
+                    Debe subir un archivo
                 </div>
+                {% if ( e != null ) %}
+                    <div class="text-center" style="color: red;">
+                        {{ e }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

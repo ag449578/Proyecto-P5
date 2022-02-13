@@ -22,7 +22,6 @@ class ContenidoType extends AbstractType
             ->add('descripcion')
             ->add('archivo', FileType::class, [
                 'mapped' => false,
-                'required'=> true,
                 'constraints' => [
                     new File(['maxSize' => '2048k'])
                 ]

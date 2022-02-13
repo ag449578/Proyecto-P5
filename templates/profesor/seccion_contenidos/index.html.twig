@@ -5,7 +5,7 @@
 {% block body %}
     <section class="container mt-5">
         <div class="d-flex flex-row justify-content-between mb-3">
-            <h3 class="mb-3">Gestionar secciones</h3>
+            <h3 class="mb-3">Secciones</h3>
             <div>
                 <a href="{{ path('seccion_contenidos_new') }}" class="btn btn-primary mb-2">Crear seccion</a>
                 
@@ -22,9 +22,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for seccion_contenido in seccion_contenidos %}
+                {% for  key, seccion_contenido in seccion_contenidos %}
                     <tr>
-                        <td>{{ seccion_contenido.id }}</td>
+                        <td scope="row">{{ key+1 }}</td>
                         <td>{{ seccion_contenido.nombre }}</td>
                         <td>{{ seccion_contenido.descripcion }}</td>
                         <td>
@@ -40,6 +40,6 @@
                 </tbody>
             </table>
         </div>
-        <a href="{{path('contenido_index')}}" class="btn btn-primary mb-2">Volver a los contenidos</a>
+        <a href="{{path('contenido_index')}}" class="btn btn-primary mb-2 mt-2">Volver a los contenidos</a>
     </section>
 {% endblock %}
