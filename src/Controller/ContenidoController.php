@@ -17,13 +17,11 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Mime\FileinfoMimeTypeGuesser;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/profesor")
- */
+
 class ContenidoController extends AbstractController
 {
     /**
-     * @Route("/contenido", name="contenido_index", methods={"GET"})
+     * @Route("/profesor/contenido", name="contenido_index", methods={"GET"})
      */
     public function index(ContenidoRepository $contenidoRepository, ProfesorRepository $profesorRepository): Response
     {
@@ -37,7 +35,7 @@ class ContenidoController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="contenido_new", methods={"GET", "POST"})
+     * @Route("/profesor/new", name="contenido_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager, string $contenidoDir): Response
     {
@@ -73,7 +71,7 @@ class ContenidoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="contenido_edit", methods={"GET", "POST"})
+     * @Route("/profesor/{id}/edit", name="contenido_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Contenido $contenido, EntityManagerInterface $entityManager, string $contenidoDir): Response
     {
@@ -107,7 +105,7 @@ class ContenidoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="contenido_delete", methods={"POST"})
+     * @Route("/profesor/{id}", name="contenido_delete", methods={"POST"})
      */
     public function delete(Request $request, Contenido $contenido, EntityManagerInterface $entityManager): Response
     {
@@ -120,7 +118,7 @@ class ContenidoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="contenido_show", methods={"GET"})
+     * @Route("/profesor/{id}", name="contenido_show", methods={"GET"})
      */
     public function show(Contenido $contenido): Response
     {

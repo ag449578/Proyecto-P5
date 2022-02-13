@@ -5,6 +5,7 @@
             <label for="nombre" class="col-sm-4 col-form-label">Nombre:</label>
             <div class="col-sm-8">
                 {{ form_widget(form.nombre, {'attr': { "placeholder": "Nombre"}}) }}
+                {{ form_errors(form.nombre) }}
                 <div class="invalid-feedback">
                     Debe escribir un nombre.
                 </div>
@@ -34,7 +35,7 @@
         <div class="row mb-3 col-md-6">
             <label for="horas" class="col-sm-4 col-form-label">Horas clase:</label>
             <div class="col-sm-8">
-                {{ form_widget(form.horas_clase, {'attr': { "placeholder": "Horas Clase"}}) }}
+                {{ form_widget(form.horas_clase, {'attr': { "placeholder": "Horas Clase", "min": "10"}}) }}
                 {# <input type="number" class="form-control" id="horas" value="0" min="10" required> #}
                 <div class="invalid-feedback">
                     Debe ser un valor mayor o igual a 10.
@@ -45,7 +46,7 @@
         <div class="row mb-3 col-md-6">
             <label for="temas" class="col-sm-4 col-form-label">Cantidad de temas:</label>
             <div class="col-sm-8">
-                {{ form_widget(form.cantidad_temas, {'attr': { "placeholder": "Cantidad ed temas"}}) }}
+                {{ form_widget(form.cantidad_temas, {'attr': { "placeholder": "Cantidad ed temas",  "min": "1"}}) }}
                 {# <input type="number" class="form-control" id="temas" value="0" min="1"> #}
                 <div class="invalid-feedback">
                     Debe ser un valor mayor o igual a 1.
@@ -100,3 +101,7 @@
     </div>
 
 {{ form_end(form) }}
+
+{% block botom_javascript %}
+    <script src="{{ asset('js/form-validation.js') }}"></script>
+{% endblock %}
