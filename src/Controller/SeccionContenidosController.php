@@ -39,10 +39,10 @@ class SeccionContenidosController extends AbstractController
             $entityManager->persist($seccionContenido);
             $entityManager->flush();
 
-            return $this->redirectToRoute('profesor/seccion_contenidos_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('seccion_contenidos_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('seccion_contenidos/new.html.twig', [
+        return $this->renderForm('profesor/seccion_contenidos/new.html.twig', [
             'seccion_contenido' => $seccionContenido,
             'form' => $form,
         ]);
@@ -88,6 +88,6 @@ class SeccionContenidosController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('profesor/seccion_contenidos_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('seccion_contenidos_index', [], Response::HTTP_SEE_OTHER);
     }
 }

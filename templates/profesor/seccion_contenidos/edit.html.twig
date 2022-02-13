@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit SeccionContenidos</h1>
 
-    {{ include('seccion_contenidos/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('profesor/seccion_contenidos/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('seccion_contenidos_index') }}">back to list</a>
 
-    {{ include('seccion_contenidos/_delete_form.html.twig') }}
+    {{ include('profesor/seccion_contenidos/_delete_form.html.twig') }}
 {% endblock %}

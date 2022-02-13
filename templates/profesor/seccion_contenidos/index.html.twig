@@ -3,35 +3,43 @@
 {% block title %}SeccionContenidos index{% endblock %}
 
 {% block body %}
-    <h1>SeccionContenidos index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for seccion_contenido in seccion_contenidos %}
-            <tr>
-                <td>{{ seccion_contenido.id }}</td>
-                <td>{{ seccion_contenido.nombre }}</td>
-                <td>{{ seccion_contenido.descripcion }}</td>
-                <td>
-                    <a href="{{ path('seccion_contenidos_show', {'id': seccion_contenido.id}) }}">show</a>
-                    <a href="{{ path('seccion_contenidos_edit', {'id': seccion_contenido.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('seccion_contenidos_new') }}">Create new</a>
+    <section class="container mt-5">
+        <div class="d-flex flex-row justify-content-between mb-3">
+            <h3 class="mb-3">Gestionar secciones</h3>
+            <div>
+                <a href="{{ path('seccion_contenidos_new') }}" class="btn btn-primary mb-2">Crear seccion</a>
+                
+            </div>
+        </div>
+        <div class="bg-light rounded shadow">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Descripcion</th>
+                        {# <th scope="col">actions</th> #}
+                    </tr>
+                </thead>
+                <tbody>
+                {% for seccion_contenido in seccion_contenidos %}
+                    <tr>
+                        <td>{{ seccion_contenido.id }}</td>
+                        <td>{{ seccion_contenido.nombre }}</td>
+                        <td>{{ seccion_contenido.descripcion }}</td>
+                        <td>
+                            <a href="{{ path('seccion_contenidos_show', {'id': seccion_contenido.id}) }}">Ver</a>
+                            <a href="{{ path('seccion_contenidos_edit', {'id': seccion_contenido.id}) }}">Editar</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Nada encontrado</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <a href="{{path('contenido_index')}}" class="btn btn-primary mb-2">Volver a los contenidos</a>
+    </section>
 {% endblock %}
