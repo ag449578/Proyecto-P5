@@ -1,4 +1,37 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, { 'attr': {'class': 'needs-validation', 'novalidate':true} }) }}
+    <div class="row mb-3">
+        <div class="row mb-3 col-md-6">
+            <label for="nombre" class="col-sm-3 col-form-label">Titulo:</label>
+            <div class="col-sm-9">
+                {{ form_widget(form.nombre, {'attr': { "placeholder": "Titulo"}}) }}
+                <div class="invalid-feedback">
+                    Debe escribir un titulo para la seccion.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 col-md-6">
+            <label for="nombre" class="col-sm-3 col-form-label">Desccripcion:</label>
+            <div class="col-sm-9">
+                {{ form_widget(form.descripcion, {'attr': { "placeholder": "Aqui va la descripcion"}}) }}
+                <div class="invalid-feedback">
+                    Debe escribir una descripcion.
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 col-md-6">
+            <label for="nombre" class="col-sm-3 col-form-label">Asignatura:</label>
+            <div class="col-sm-9">
+                {{ form_widget(form.asignatura, {'attr': { "placeholder": "Debe escribir una descripcion"}}) }}
+                <div class="invalid-feedback">
+                    Debe definir una asignatura.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-around">
+        <a class=" btn btn-primary col-2" href="{{ path('seccion_contenidos_index') }}">Volver a la lista</a>
+        <button class="btn btn-primary col-2">{{ button_label|default('Guardar') }}</button>
+    </div>
+
 {{ form_end(form) }}
