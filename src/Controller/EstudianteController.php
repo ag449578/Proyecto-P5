@@ -6,26 +6,39 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Asignatura;
+use App\Repository\AsignaturaRepository;
 use App\Repository\EstudianteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class EstudianteController extends AbstractController
 {
     /**
      * @Route("/estudiante", name="estudiante")
      */
-    public function index(): Response
+    public function index(Request $request, AsignaturaRepository $asignaturaRepository): Response
     {
+        // getAsignaturasEstudiantePaginator(int $offset, string $order, int $estId);
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $asignaturaRepository->getAsignaturasEstudiantePaginator($offset, 'id', $this->getUser()->getId());
+        
         return $this->render('estudiante/index.html.twig', [
-            'controller_name' => 'EstudianteController',
+            'asignaturas' => $paginator,
+            'anterior' => $offset - AsignaturaRepository::PAGINATOR_PER_PAGE,
+            'siguiente' => min(count($paginator), $offset + AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'numb_pag' => ceil(count($paginator) / AsignaturaRepository::PAGINATOR_PER_PAGE),
+            'offset' => $offset,
+            'per_page' => AsignaturaRepository::PAGINATOR_PER_PAGE
         ]);
     }
 
     /**
      * @Route("/estudiante/matricularme/{id}", name="matricularme")
      */
-    public function matricularme(Asignatura $asignatura, EstudianteRepository $estudianteRepository, EntityManagerInterface $entityManager): Response
-    {
+    public function matricularme(Request $request, Asignatura $asignatura,EstudianteRepository $estudianteRepository, EntityManagerInterface $entityManager): Response
+    {   
+        $route = $request->query->get('route');
         $id = $this->getUser()->getId();
         $estudiante = $estudianteRepository->findOneBy([
             'id' => $id
@@ -36,15 +49,16 @@ class EstudianteController extends AbstractController
         // $estudiante->removeAsignatura($asignatura);
         $entityManager->persist($estudiante);
         $entityManager->flush();
-        return $this->redirectToRoute('asignatura_show', [ "id" => $asignatura->getId() ]);
+        if($route == 'asignatura_show') return $this->redirectToRoute('asignatura_show', [ "id" => $asignatura->getId() ]);
+        return $this->redirectToRoute($route);
     }
 
     /**
      * @Route("/estudiante/desmatricularme/{id}", name="desmatricularme")
      */
-    public function desmatricularme(Asignatura $asignatura, EstudianteRepository $estudianteRepository, EntityManagerInterface $entityManager): Response
+    public function desmatricularme(Request $request, Asignatura $asignatura, EstudianteRepository $estudianteRepository, EntityManagerInterface $entityManager): Response
     {
-        
+        $route = $request->query->get('route');
         $id = $this->getUser()->getId();
         $estudiante = $estudianteRepository->findOneBy([
             'id' => $id
@@ -52,9 +66,10 @@ class EstudianteController extends AbstractController
         if($estudiante){
             $estudiante->removeAsignatura($asignatura);
         }
-        // $estudiante->removeAsignatura($asignatura);
         $entityManager->persist($estudiante);
         $entityManager->flush();
-        return $this->redirectToRoute('asignatura_show', [ "id" => $asignatura->getId() ]);
+        if($route == 'asignatura_show') return $this->redirectToRoute('asignatura_show', [ "id" => $asignatura->getId() ]);
+        return $this->redirectToRoute($route);
+
     }
 }

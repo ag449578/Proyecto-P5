@@ -4,10 +4,11 @@
         <div class="row mb-3 col-md-6">
             <label for="nombre" class="col-sm-4 col-form-label">Nombre:</label>
             <div class="col-sm-8">
-                {{ form_widget(form.nombre, {'attr': { "placeholder": "Nombre"}}) }}
+                {{ form_widget(form.nombre, {'attr': { "placeholder": "Nombre", "pattern":  "[A-Z][\\w|\\s]*"}}) }}
                 {{ form_errors(form.nombre) }}
                 <div class="invalid-feedback">
                     Debe escribir un nombre.
+                    El nombre debe comenzar con mayúsculas.
                 </div>
             </div>
         </div>
@@ -15,9 +16,10 @@
         <div class="row mb-3 col-md-6">
             <label for="departamento" class="col-sm-4 col-form-label">Departamento:</label>
             <div class="col-sm-8">
-                {{ form_widget(form.departamento, {'attr': { "placeholder": "Departamento"}}) }}
+                {{ form_widget(form.departamento, {'attr': { "placeholder": "Departamento", "pattern":  "[A-Z][\\w|\\s]*"}}) }}
                 <div class="invalid-feedback">
-                    Debe seleccionar un departamento.
+                    Debe nombrar un departamento.
+                    El nombre debe comenzar con mayúsculas.
                 </div>
             </div>
         </div>
@@ -74,7 +76,7 @@
 
         <div class="col-sm-12">
             <label for="descripcion" class="form-label">Descripción:</label>
-            {{ form_widget(form.descripcion, { attr: { rows: 6 } }) }}
+            {{ form_widget(form.descripcion, { 'attr': { rows: 6, "pattern":  "[A-Z][\\w|\\s]*"} }) }}
             {# <textarea class="form-control" id="descripcion" rows="6" required></textarea> #}
             <div id="ayudaDesc" class="form-text">Descripcion sobre la asignatura y como abordarla.</div>
             <div class="invalid-feedback">
@@ -95,7 +97,6 @@
         <div class="col-sm-12 text-center mt-5">
             <button type="submit" class="btn btn-primary mx-3 my-2">Enviar</button>
             <a href="{{ path('asignatura_index') }}" class="btn btn-danger  mx-3 my-2">Cancelar</a>
-            <button type="button" class="btn btn-warning mx-3 my-2">Resetear</button>
         </div>
 
     </div>

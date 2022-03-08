@@ -6,7 +6,9 @@
     <section class="container mt-5">
 
         <div class=" my-5">
-            <h2 class="h2">Editar Asignatura</h2>
+            <h2 class="h2">Editar Asignatura
+                {{ include('administrador/asignatura/_delete_form.html.twig') }}
+            </h2>
         </div>
 
         {{ include('administrador/asignatura/_form.html.twig', {'button_label': 'Actualizar'}) }}
