@@ -28,12 +28,17 @@
             </div>
         </div>
         <div class="row mb-3 col-md-6">
-            <label for="nombre" class="col-sm-3 col-form-label">Url:</label>
+            <label for="nombre" class="col-sm-3 col-form-label">Archivo:</label>
             <div class="col-sm-9">
-                {{ form_widget(form.url_archivo, {'attr': { "placeholder": "URL"}}) }}
+                {{ form_widget(form.archivo) }}
                 <div class="invalid-feedback">
-                    URL.
+                    Debe subir un archivo
                 </div>
+                {% if ( e != null ) %}
+                    <div class="text-center" style="color: red;">
+                        {{ e }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>

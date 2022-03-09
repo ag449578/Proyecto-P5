@@ -8,6 +8,7 @@ use App\Repository\AsignaturaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\Expr\Math;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,23 +52,33 @@ class AsignaturaController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if($imagen = $form->get('imagen')->getData()){
+            $asig = $entityManager->getRepository(Asignatura::class)->findOneBy([
+                'nombre' => $form->get('nombre')->getData()
+            ]);
 
-                $filename = bin2hex(random_bytes(6).'.'.$imagen->guessExtension());
-
-                try{
-                    $imagen->move($photoDir, $filename);
-                }catch(FileException $e){
-
+            if(!$asig){
+                if($imagen = $form->get('imagen')->getData()){
+    
+                    $filename = bin2hex(random_bytes(6).'.'.$imagen->guessExtension());
+    
+                    try{
+                        $imagen->move($photoDir, $filename);
+                    }catch(FileException $e){
+    
+                    }
+    
+                    $asignatura->setUrlImagen($filename);
                 }
-
-                $asignatura->setUrlImagen($filename);
+                // $form->get('old_password')->addError(new FormError('Contraseña incorrecta.'));
+    
+    
+                $entityManager->persist($asignatura);
+                $entityManager->flush();
+    
+                return $this->redirectToRoute('asignatura_index', [], Response::HTTP_SEE_OTHER);
+            }else{
+                $form->get('nombre')->addError(new FormError('La asigatura ya existe.'));
             }
-
-            $entityManager->persist($asignatura);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('asignatura_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('administrador/asignatura/new.html.twig', [

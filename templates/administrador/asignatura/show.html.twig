@@ -14,6 +14,26 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         {{ include('administrador/asignatura/_delete_form.html.twig') }}
                     {% endif %}
+                    {% if is_granted('ROLE_TEACHER') and app.user in asignatura.profesores %}
+                        <a href="{{ path('contenido_new') }}"
+                        class="btn btn-success">
+                            Agregar Contenido
+                        </a>
+                    {% endif %}
+                    {% if is_granted('ROLE_USER') %}
+                        {% if app.user in asignatura.estudiantes %}                            
+                            <a href="{{ path('desmatricularme', {'id': asignatura.id, 'route' : 'asignatura_show'}) }}"
+                            class="btn btn-danger">
+                                Desmatricularme
+                            </a>
+                        {% else %}                                              
+                            <a href="{{ path('matricularme', {'id': asignatura.id, 'route' : 'asignatura_show'}) }}"
+                            class="btn btn-success">
+                                Matricularme
+                            </a>
+                        {% endif %}
+
+                    {% endif %}
                 </span>
             </h3>
             <img class="rounded" src="{{ asignatura.urlImagen != "" ? asset('uploads/photos/' ~ asignatura.urlImagen  ): '/img/default_image_low.jpeg' }}" style="width: 100%; height: 30rem;" alt="Imagen de la asignatura.">
@@ -31,7 +51,7 @@
                     
                     <div class="contenido bg-light rounded p-3 my-1">
                         <div class="info">
-                        <h5><a href="#">{{contenido.nombre}}</a><span> icono</span></h5>
+                        <h5><a href="{{ path('descarga', {'nombre': contenido.getUrlArchivo}) }}">{{contenido.nombre}}</a></h5>
                         <p>{{ contenido.descripcion }}</p>
                         </div>
                     </div>

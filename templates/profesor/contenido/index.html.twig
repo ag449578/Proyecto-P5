@@ -21,7 +21,7 @@
             </div>
             <div>
                 <a href="{{ path('contenido_new') }}" class="btn btn-primary mb-2">Crear contenido</a>
-                <a href="{{path('nuevo_estudiante')}}" class="btn btn-primary mb-2">Crear seccion</a>
+                <a href="{{path('seccion_contenidos_index')}}" class="btn btn-primary mb-2">Administrar secciones</a>
             </div>
         </div>
 
@@ -38,19 +38,18 @@
                         <th scope="col">#</th>
                         <th scope="col">Nombre</th>
                         <th scope="col">Descripcion</th>
-                        <th scope="col">Url</th>
+                        <th scope="col">Descarga</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for key, contenido in seccion.contenidos %}
-
-                    
-    
                         <tr>
                             <td scope="row">{{ key+1 }}</td>
                             <td>{{ contenido.nombre }}</td>
                             <td>{{ contenido.descripcion }}</td>
-                            <td>{{ contenido.getUrlArchivo }}</td>
+                            <td>
+                                <a href="{{ path('descarga', {'nombre': contenido.getUrlArchivo}) }}">Descargar</a>
+                            </td>
                             
                             <td>
                                 <a href="{{ path('contenido_show', {'id': contenido.id}) }}">Ver</a>
@@ -64,28 +63,7 @@
                     {% endfor %}
                     </tbody>
                 </table>
-    
-                
-    
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
         {% endfor %}
-
-
-
-
-
     </section>
-
 {% endblock %}

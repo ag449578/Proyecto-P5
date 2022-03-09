@@ -4,8 +4,14 @@ namespace App\Form;
 
 use App\Entity\Contenido;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+
+
+
+
 
 class ContenidoType extends AbstractType
 {
@@ -14,7 +20,12 @@ class ContenidoType extends AbstractType
         $builder
             ->add('nombre')
             ->add('descripcion')
-            ->add('url_archivo')
+            ->add('archivo', FileType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new File(['maxSize' => '2048k'])
+                ]
+            ])
             ->add('seccionContenidos')
         ;
     }

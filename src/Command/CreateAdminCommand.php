@@ -19,12 +19,12 @@ class CreateAdminCommand extends Command
     protected static $defaultName = 'app:create-admin';
     protected static $defaultDescription = 'Crea un usuario por un nombre, correo y contraseña dado, si el usuario con esas caracteristicas ya existe actualiza la contraseña.';
 
-    public function __construct(bool $requirePassword = false, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
+    public function __construct(ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
     {
         // best practices recommend to call the parent constructor first and
         // then set your own properties. That wouldn't work in this case
         // because configure() needs the properties set in this constructor
-        $this->requirePassword = $requirePassword;
+    
         $this->passwordHasher = $passwordHasher;
         $this->doctrine = $doctrine;
 
@@ -36,7 +36,7 @@ class CreateAdminCommand extends Command
         $this
             ->addArgument('nomb_usuario', InputArgument::REQUIRED, 'El nombre del usuario admin.')
             ->addArgument('correo', InputArgument::REQUIRED, 'El correo del usuario.')
-            ->addArgument('password', $this->requirePassword ? InputArgument::REQUIRED : InputArgument::OPTIONAL, 'Contraseña, opcional(default: 123456)')
+            ->addArgument('password', InputArgument::OPTIONAL, 'Contraseña, opcional(default: 123456)')
         ;
     }
 

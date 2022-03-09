@@ -54,6 +54,21 @@ class AsignaturaRepository extends ServiceEntityRepository
         return new Paginator($query);
     }
 
+    public function getAsignaturasEstudiantePaginator(int $offset, string $order, int $estId): Paginator
+    {
+
+        $query = $this->createQueryBuilder('a') 
+            ->orderBy('a.'.$order, 'ASC')
+            ->innerJoin('a.estudiantes', 'e', 'WITH', 'e.id = :estId')
+            ->setParameter('estId', $estId)
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
+    }
+
     // /**
     //  * @return Asignatura[] Returns an array of Asignatura objects
     //  */
