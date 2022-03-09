@@ -23,8 +23,10 @@ class EstudianteController extends AbstractController
      */
     public function index(Request $request ,AsignaturaRepository $asignaturaRepository): Response
     {
+        //$varia = $this->getUser()->getId();
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $asignaturaRepository->getAsignaturaPaginator($offset, 'id');
+        
         
 
         return $this->render('estudiante/index.html.twig', [
