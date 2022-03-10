@@ -3,11 +3,14 @@
 {% block title %}Edit Solicitud{% endblock %}
 
 {% block body %}
-    <h1>Edit Solicitud</h1>
+    <section class="container mt-5">
 
-    {{ include('estudiante/solicitud/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class=" my-5">
+            <h2 class="h2">Editar Solicitud
+                {{ include('estudiante/solicitud/_delete_form.html.twig') }}
+            </h2>
+        </div>
 
-    <a href="{{ path('solicitud_index') }}">back to list</a>
-
-    {{ include('estudiante/solicitud/_delete_form.html.twig') }}
+        {{ include('estudiante/solicitud/_form.html.twig', {'button_label': 'Update'}) }}
+    </section>
 {% endblock %}

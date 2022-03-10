@@ -28,7 +28,7 @@
                         <td>{{ solicitud.titulo }}</td>
                         <td>{{ solicitud.descripcion }}</td>
                         
-                        {% if state >= 0 %}
+                        {% if solicitud.estado == 0 %}
                           <td>Sin Respuesta</td>
                         {% else %}
                           <td>Respuesta</td>

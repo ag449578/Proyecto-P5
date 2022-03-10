@@ -6,6 +6,8 @@ use App\Entity\Solicitud;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class SolicitudType extends AbstractType
 {
@@ -14,8 +16,6 @@ class SolicitudType extends AbstractType
         $builder
             ->add('titulo')
             ->add('descripcion')
-            ->add('estado')
-            ->add('estudiante')
             ->add('asignatura')
         ;
     }

@@ -11,17 +11,6 @@ use App\Repository\EstudianteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
-use App\Entity\Asignatura;
-use App\Form\AsignaturaType;
-use App\Repository\AsignaturaRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Query\Expr\Math;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\Request;
-
-
-
 class EstudianteController extends AbstractController
 {
     /**

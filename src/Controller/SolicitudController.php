@@ -79,6 +79,8 @@ class SolicitudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $solicitud->setEstado('0');
+            $solicitud->setEstudiante($this->getUser());
             $entityManager->persist($solicitud);
             $entityManager->flush();
 
