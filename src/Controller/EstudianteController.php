@@ -11,11 +11,10 @@ use App\Repository\EstudianteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
 class EstudianteController extends AbstractController
 {
     /**
-     * @Route("/estudiante", name="estudiante")
+     * @Route("/estudiante", name="estudiante", methods={"GET"})
      */
     public function index(Request $request, AsignaturaRepository $asignaturaRepository): Response
     {

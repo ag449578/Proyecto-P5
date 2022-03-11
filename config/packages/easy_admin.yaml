@@ -26,3 +26,6 @@ easy_admin:
 
     Profesor:
       class: App\Entity\Profesor
+
+    Solicitud:
+      class: App\Entity\Solicitud

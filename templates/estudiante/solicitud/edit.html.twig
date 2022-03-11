@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Solicitud{% endblock %}
+
+{% block body %}
+    <section class="container mt-5">
+
+        <div class=" my-5">
+            <h2 class="h2">Editar Solicitud
+                {{ include('estudiante/solicitud/_delete_form.html.twig') }}
+            </h2>
+        </div>
+
+        {{ include('estudiante/solicitud/_form.html.twig', {'button_label': 'Update'}) }}
+    </section>
+{% endblock %}

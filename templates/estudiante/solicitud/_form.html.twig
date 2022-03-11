@@ -1,0 +1,14 @@
+
+<div class="bg-light rounded shadow container" style="min-height: 460px;">
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        
+    <div class="col-sm-12 text-center mt-5">
+        <button type="submit" class="btn btn-primary mx-3 my-2">Enviar</button>
+        <a href="{{ path('solicitud_index') }}" class="btn btn-danger  mx-3 my-2">Cancelar</a>
+    </div>
+
+    {{ form_end(form) }}
+
+</div>

@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Solicitudes{% endblock %}
+
+{% block body %}
+    <section class="container mt-5" style="min-height: 670px;" >
+
+        <div class="d-flex flex-row justify-content-between">
+            <h3>Solicitudes : {{ solicitudes | length}}</h3>
+            <a href="{{ path('solicitud_new') }}" class="btn btn-primary mb-2">Agregar nueva</a>
+        </div>
+        
+        <div class="bg-light rounded shadow">
+            <table class="table">
+                <thead>
+                    <th scope="col">#</th>
+                    <th scope="col"><a href="{{path('solicitud_index', { offset: offset, order:'titulo' } )}}">Titulo</a></th>
+                    <th scope="col"><a href="{{path('solicitud_index', { offset: offset, order:'descripcion' } )}}">Descripcion</a></th>
+                    <th scope="col"><a href="{{path('solicitud_index', { offset: offset, order:'estado' } )}}">Estado</a></th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key, solicitud in solicitudes %}
+
+                    <tr>
+                        <td scope="row">{{ key + offset + 1 }}</td>
+                        <td>{{ solicitud.titulo }}</td>
+                        <td>{{ solicitud.descripcion }}</td>
+                        
+                        {% if solicitud.estado == 0 %}
+                          <td>Sin Respuesta</td>
+                        {% else %}
+                          <td>Respuesta</td>
+                        {% endif %}
+                        
+                        <td>
+                            <a href="{{ path('solicitud_show', {'id': solicitud.id}) }}">ver</a>
+                            <a href="{{ path('solicitud_edit', {'id': solicitud.id}) }}">editar</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {# Pagination #}
+            <div class="d-flex justify-content-center">
+            <nav aria-label="navigation shadow">
+                <ul class="pagination">
+                {% if anterior >= 0 %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('solicitud_index', { offset: anterior, order: order } )}}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+
+                  {% for i in 0..numb_pag-1 %}     
+                          <li class="page-item {% if offset == i * per_page %}
+                              active
+                          {% endif %}"><a class="page-link" href="{{path('solicitud_index', { offset: i * per_page, order: order } )}}">{{ i + 1 }}</a></li>  
+                  {% endfor %}  
+
+                {% if siguiente < solicitudes|length %}
+                  <li class="page-item">
+                    <a class="page-link" href="{{path('solicitud_index', { offset: siguiente, order: order } )}}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li class="page-item disabled">
+                    <a class="page-link" href="" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>
+                {% endif %}
+                </ul>
+              </nav>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
